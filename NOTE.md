@@ -26,15 +26,16 @@ git push --set-upstream origin
 
 ### API
 
+- [x] Create codebase from Acarium project
 - [x] Login
 - [x] Logout
-- [x] Add diary
-- [x] Update diary
-- [ ] Delete diary
+- [x] Add activity
+- [x] Update activity
+- [ ] Delete activity
+- [ ] Search activity by time range, text, tags
 - [ ] Export data from firebase to json
 - [ ] Import json data to mongo database using import script
-- [x] Create codebase from Acarium project
-  - [x] Remove packages: nanoid
+
 
 ### Web
 
