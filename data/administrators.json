@@ -1,0 +1,19 @@
+[{
+	"_id": {
+		"$oid": "5f9550e2f0d5c00715568108"
+	},
+	"status": "ACTIVE",
+	"email": "notebook@mailinator.com",
+	"username": "admin",
+	"password": "$2a$10$XjcBXCb30oPvvFAMBtEzGOLWX0bjtI/7hyfzS/5NsiZoj1G67x8YK",
+	"roles": [
+		"admin"
+	],
+	"createdAt": {
+		"$date": "2020-10-25T10:18:10.502Z"
+	},
+	"updatedAt": {
+		"$date": "2020-10-25T10:18:10.502Z"
+	}
+}]
+

@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UploadService getSignature should match snapshot 1`] = `"9efe7eb0324de95f41408eb5ceca849a2b3d2c3647003d7bf3568baa5a8ca4b8"`;
+
+exports[`UploadService getStringToSign should match snapshot 1`] = `"eyJleHBpcmF0aW9uIjoiMjAyMC0wOS0xMVQyMDo1ODoxMS41NjhaIiwiY29uZGl0aW9ucyI6W3siYnVja2V0IjoiZXhhbXBsZS1idWNrZXQifSx7InN1Y2Nlc3NfYWN0aW9uX3N0YXR1cyI6IjIwMCJ9LFsic3RhcnRzLXdpdGgiLCIka2V5IiwidXBsb2FkLyJdLHsiYWNsIjoicHVibGljLXJlYWQifSxbInN0YXJ0cy13aXRoIiwiJENvbnRlbnQtVHlwZSIsImltYWdlLyJdLHsieC1hbXotYWxnb3JpdGhtIjoiQVdTNC1ITUFDLVNIQTI1NiJ9LHsieC1hbXotY3JlZGVudGlhbCI6IkFLSUFJT1NGT0ROTjdFWEFNUExFLzIwMjAwOTExL2V1LWNlbnRyYWwtMS9zMy9hd3M0X3JlcXVlc3QifSx7IngtYW16LWRhdGUiOiIyMDIwMDkxMVQwMDAwMDBaIn1dfQ=="`;
+
+exports[`UploadService getUploadToken should match snapshot 1`] = `
+UploadToken {
+  "acl": "public-read",
+  "algorithm": "AWS4-HMAC-SHA256",
+  "credential": "AKIAIOSFODNN7EXAMPLE/20200911/eu-central-1/s3/aws4_request",
+  "date": "20200911T000000Z",
+  "fileUrl": "http://example.com/upload/{filename}",
+  "key": "upload/{filename}",
+  "policy": "eyJleHBpcmF0aW9uIjoiMjAyMC0wOS0xMVQyMTowODoxMS41NjhaIiwiY29uZGl0aW9ucyI6W3siYnVja2V0IjoiZXhhbXBsZS1idWNrZXQifSx7InN1Y2Nlc3NfYWN0aW9uX3N0YXR1cyI6IjIwMCJ9LFsic3RhcnRzLXdpdGgiLCIka2V5IiwidXBsb2FkLyJdLHsiYWNsIjoicHVibGljLXJlYWQifSxbInN0YXJ0cy13aXRoIiwiJENvbnRlbnQtVHlwZSIsImltYWdlLyJdLHsieC1hbXotYWxnb3JpdGhtIjoiQVdTNC1ITUFDLVNIQTI1NiJ9LHsieC1hbXotY3JlZGVudGlhbCI6IkFLSUFJT1NGT0ROTjdFWEFNUExFLzIwMjAwOTExL2V1LWNlbnRyYWwtMS9zMy9hd3M0X3JlcXVlc3QifSx7IngtYW16LWRhdGUiOiIyMDIwMDkxMVQwMDAwMDBaIn1dfQ==",
+  "signature": "0f6b3c4fb40eb7ba026ae578511fb4225646791f950f768266611c0bbcdc7a02",
+  "successActionStatus": "200",
+  "uploadUrl": "https://example-bucket.s3.amazonaws.com/",
+}
+`;
