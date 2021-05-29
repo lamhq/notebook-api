@@ -3,10 +3,12 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { MongoRepository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { EventEmitter2 } from '@nestjs/event-emitter';
+import { ObjectId } from 'mongodb';
 import { ActivityService } from './activity.service';
 import { Activity } from './activity.entity';
 import { AddActivityDto } from './dto/add-activity.dto';
 import { ActivityEventType } from './activity.event';
+import { UpdateActivityDto } from './dto/update-activity.dto';
 
 describe('ActivityService', () => {
   let service: ActivityService;
@@ -61,6 +63,37 @@ describe('ActivityService', () => {
         expect.objectContaining({
           type: ActivityEventType.Created,
           activity,
+        }),
+      );
+    });
+  });
+
+  describe('updateActivity', () => {
+    it('should success', async () => {
+      const id = '60b1fd2e3c588c0bb68405e7';
+      const dto: UpdateActivityDto = {
+        content: 'test',
+        createdAt: '2021-10-10',
+        income: 0,
+        outcome: 0,
+        tags: ['abc', 'def'],
+      };
+      await expect(service.updateActivity(id, dto)).resolves.toEqual(
+        expect.objectContaining({
+          ...dto,
+          id: new ObjectId(id),
+          createdAt: new Date(dto.createdAt),
+        }),
+      );
+      expect(activityRepo.findOneAndUpdate).toHaveBeenCalledWith(
+        { _id: new ObjectId(id) },
+        { $set: expect.objectContaining({ ...dto, createdAt: new Date(dto.createdAt) }) },
+      );
+      expect(eventEmitter.emit).toHaveBeenCalledWith(
+        'activity.updated',
+        expect.objectContaining({
+          type: ActivityEventType.Updated,
+          activity: expect.any(Activity),
         }),
       );
     });

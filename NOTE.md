@@ -13,19 +13,29 @@
 - [ ] Deploy to production
 
 
+## Snippets
+
+```sh
+git checkout -b feature/update-activity
+git commit -m "feat: update activity"
+git push --set-upstream origin
+```
+
+
 ## Development Progress
 
 ### API
 
+- [x] Create codebase from Acarium project
 - [x] Login
 - [x] Logout
-- [ ] Add diary
-- [ ] Update diary
-- [ ] Delete diary
+- [x] Add activity
+- [x] Update activity
+- [ ] Delete activity
+- [ ] Search activity by time range, text, tags
 - [ ] Export data from firebase to json
 - [ ] Import json data to mongo database using import script
-- [x] Create codebase from Acarium project
-  - [x] Remove packages: nanoid
+
 
 ### Web
 
