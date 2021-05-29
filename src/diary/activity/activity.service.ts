@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ObjectId } from 'mongodb';
@@ -35,6 +35,7 @@ export class ActivityService {
   }
 
   async updateActivity(activityId: string, dto: UpdateActivityDto): Promise<Activity> {
+    await this.findOneByIdOrFail(activityId);
     const update = {
       content: dto.content,
       createdAt: new Date(dto.createdAt),
@@ -56,5 +57,26 @@ export class ActivityService {
       }),
     );
     return activity;
+  }
+
+  async findOneByIdOrFail(activityId: string): Promise<Activity> {
+    try {
+      const activity = await this.activityRepo.findOneOrFail(activityId);
+      return activity;
+    } catch (error) {
+      throw new NotFoundException();
+    }
+  }
+
+  async deleteActivity(activityId: string): Promise<void> {
+    const activity = await this.findOneByIdOrFail(activityId);
+    this.eventEmitter.emit(
+      'activity.removed',
+      new ActivityEvent({
+        type: ActivityEventType.Removed,
+        activity,
+      }),
+    );
+    await this.activityRepo.findOneAndDelete({ _id: new ObjectId(activityId) });
   }
 }
