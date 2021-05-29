@@ -741,6 +741,13 @@
     tslib "2.0.0"
     uuid "8.3.0"
 
+"@nestjs/event-emitter@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@nestjs/event-emitter/-/event-emitter-0.0.3.tgz#c8f88351564c0ecd87fb8f70cfba9dddd3da12db"
+  integrity sha512-ggVMXdu80VN62rXMtfbQ7XTu3k4t0UUFn4DNQyQee5NTRCcRpT1ZmYR/qt0Exh9JiNvzYDR9TYRr20GU40n6fg==
+  dependencies:
+    eventemitter2 "6.4.3"
+
 "@nestjs/jwt@^7.1.0":
   version "7.1.0"
   resolved "https://registry.yarnpkg.com/@nestjs/jwt/-/jwt-7.1.0.tgz#0ad6633399641cbba327e275827fcd935207930f"
@@ -3950,6 +3957,11 @@ event-emitter@^0.3.5:
   dependencies:
     d "1"
     es5-ext "~0.10.14"
+
+eventemitter2@6.4.3:
+  version "6.4.3"
+  resolved "https://registry.yarnpkg.com/eventemitter2/-/eventemitter2-6.4.3.tgz#35c563619b13f3681e7eb05cbdaf50f56ba58820"
+  integrity sha512-t0A2msp6BzOf+QAcI6z9XMktLj52OjGQg+8SJH6v5+3uxNpWYRR3wQmfA+6xtMU9kOC59qk9licus5dYcrYkMQ==
 
 events@^3.0.0:
   version "3.2.0"
