@@ -2,11 +2,13 @@ import { Module } from '@nestjs/common';
 import { ConfigService, ConfigModule } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { MailerModule, MailerOptions } from '@nestjs-modules/mailer';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 import { AppController } from './app.controller';
 import { configFactory } from './config';
 import { SystemModule } from './system/system.module';
 import { AuthModule } from './auth/auth.module';
 import { AdminModule } from './admin/admin.module';
+import { DiaryModule } from './diary/diary.module';
 
 @Module({
   controllers: [AppController],
@@ -36,9 +38,13 @@ import { AdminModule } from './admin/admin.module';
         return mailerOptions;
       },
     }),
+    EventEmitterModule.forRoot({
+      wildcard: true,
+    }),
     SystemModule,
     AuthModule,
     AdminModule,
+    DiaryModule,
   ],
 })
 export class AppModule {}
