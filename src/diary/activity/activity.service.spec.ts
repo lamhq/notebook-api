@@ -4,6 +4,7 @@ import { MongoRepository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ObjectId } from 'mongodb';
+import { NotFoundException } from '@nestjs/common';
 import { ActivityService } from './activity.service';
 import { Activity } from './activity.entity';
 import { AddActivityDto } from './dto/add-activity.dto';
@@ -31,6 +32,7 @@ describe('ActivityService', () => {
     }).compile();
 
     service = module.get<ActivityService>(ActivityService);
+    eventEmitter.emit.mockReset();
   });
 
   it('should be defined', () => {
@@ -48,6 +50,8 @@ describe('ActivityService', () => {
       };
       const activity = mock<Activity>();
       activityRepo.save.mockResolvedValueOnce(activity);
+      const findOneByIdOrFail = jest.spyOn(service, 'findOneByIdOrFail');
+      findOneByIdOrFail.mockResolvedValueOnce(activity);
       await expect(service.addActivity(dto)).resolves.toBe(activity);
 
       expect(activityRepo.save).toHaveBeenCalledWith(
@@ -65,6 +69,7 @@ describe('ActivityService', () => {
           activity,
         }),
       );
+      findOneByIdOrFail.mockRestore();
     });
   });
 
@@ -96,6 +101,43 @@ describe('ActivityService', () => {
           activity: expect.any(Activity),
         }),
       );
+    });
+  });
+
+  describe('findOneByIdOrFail', () => {
+    const id = '60b1fd2e3c588c0bb68405e7';
+
+    it('should return data', async () => {
+      const activity = mock<Activity>();
+      activityRepo.findOneOrFail.mockResolvedValueOnce(activity);
+
+      await expect(service.findOneByIdOrFail(id)).resolves.toBe(activity);
+      expect(activityRepo.findOneOrFail).toHaveBeenCalledWith(id);
+    });
+
+    it('should throw not found exception', async () => {
+      activityRepo.findOneOrFail.mockRejectedValueOnce('some error');
+      await expect(service.findOneByIdOrFail(id)).rejects.toEqual(expect.any(NotFoundException));
+    });
+  });
+
+  describe('deleteActivity', () => {
+    it('should success', async () => {
+      const id = '60b1fd2e3c588c0bb68405e7';
+      const activity = mock<Activity>();
+      const findOneByIdOrFail = jest.spyOn(service, 'findOneByIdOrFail');
+      findOneByIdOrFail.mockResolvedValueOnce(activity);
+
+      await expect(service.deleteActivity(id)).resolves.toBeUndefined();
+      expect(activityRepo.findOneAndDelete).toHaveBeenCalledWith({ _id: new ObjectId(id) });
+      expect(eventEmitter.emit).toHaveBeenCalledWith(
+        'activity.removed',
+        expect.objectContaining({
+          type: ActivityEventType.Removed,
+          activity,
+        }),
+      );
+      findOneByIdOrFail.mockRestore();
     });
   });
 });

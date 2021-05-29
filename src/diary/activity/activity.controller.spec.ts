@@ -55,4 +55,12 @@ describe('Activity Controller', () => {
       expect(activityService.updateActivity).toHaveBeenCalledWith(id, dto);
     });
   });
+
+  describe('deleteActivity', () => {
+    it('should success', async () => {
+      const id = '60b1fd2e3c588c0bb68405e7';
+      await expect(controller.deleteActivity(id)).resolves.toBeUndefined();
+      expect(activityService.deleteActivity).toHaveBeenCalledWith(id);
+    });
+  });
 });

@@ -17,7 +17,7 @@
 
 ```sh
 git checkout -b feature/update-activity
-git commit -m "feat: update activity"
+git commit -m "feat: delete activity"
 git push --set-upstream origin
 ```
 
@@ -31,7 +31,7 @@ git push --set-upstream origin
 - [x] Logout
 - [x] Add activity
 - [x] Update activity
-- [ ] Delete activity
+- [x] Delete activity
 - [ ] Search activity by time range, text, tags
 - [ ] Export data from firebase to json
 - [ ] Import json data to mongo database using import script

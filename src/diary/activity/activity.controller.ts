@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, Put } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Put, Delete, Param } from '@nestjs/common';
 import {
   ApiOperation,
   ApiBearerAuth,
@@ -6,6 +6,7 @@ import {
   ApiOkResponse,
   ApiBody,
   ApiBadRequestResponse,
+  ApiNotFoundResponse,
 } from '@nestjs/swagger';
 import { AdminJwtAuthGuard } from 'src/auth/admin/jwt-auth.guard';
 import { ErrorResponse } from 'src/common/types/error-response';
@@ -34,8 +35,20 @@ export class ActivityController {
   @ApiOperation({ summary: 'Update post' })
   @ApiBody({ description: 'Activity data', type: UpdateActivityDto })
   @ApiOkResponse({ type: Activity })
+  @ApiNotFoundResponse({ description: 'Activity not found' })
   @ApiBadRequestResponse({ type: ErrorResponse, description: 'Input errors' })
-  async updateActivity(id: string, @Body() data: UpdateActivityDto): Promise<Activity> {
+  async updateActivity(
+    @Param('id') id: string,
+    @Body() data: UpdateActivityDto,
+  ): Promise<Activity> {
     return this.activityService.updateActivity(id, data);
+  }
+
+  @Delete(':id')
+  @ApiOperation({ summary: 'Delete activity' })
+  @ApiOkResponse({ description: 'Activity removed.' })
+  @ApiNotFoundResponse({ description: 'Activity not found' })
+  async deleteActivity(@Param('id') id: string): Promise<void> {
+    await this.activityService.deleteActivity(id);
   }
 }
