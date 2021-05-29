@@ -4,9 +4,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CommonService } from './common.service';
 import { Counter } from './counter.entity';
-import { ExistsValidator } from './is-exists.decorator';
 import { PasswordValidator } from './is-password-match.decorator';
-import { UniqueFieldValidator } from './is-unique-field.decorator';
 
 @Module({
   imports: [
@@ -24,7 +22,7 @@ import { UniqueFieldValidator } from './is-unique-field.decorator';
       },
     }),
   ],
-  providers: [CommonService, UniqueFieldValidator, ExistsValidator, PasswordValidator],
-  exports: [CommonService, UniqueFieldValidator, ExistsValidator, PasswordValidator],
+  providers: [CommonService, PasswordValidator],
+  exports: [CommonService, PasswordValidator],
 })
 export class CommonModule {}
