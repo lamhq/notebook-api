@@ -4,7 +4,8 @@
 
 ### API
 
-- [ ] Login
+- [x] Login
+- [x] Logout
 - [ ] Add diary
 - [ ] Update diary
 - [ ] Delete diary
