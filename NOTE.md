@@ -16,9 +16,9 @@
 ## Snippets
 
 ```sh
-git checkout -b feature/update-activity
-git commit -m "feat: delete activity"
-git push --set-upstream origin
+git checkout -b feature/search-activity
+git commit -m "feat: search activities"
+git push
 ```
 
 
@@ -32,7 +32,9 @@ git push --set-upstream origin
 - [x] Add activity
 - [x] Update activity
 - [x] Delete activity
-- [ ] Search activity by time range, text, tags
+- [x] Seed data script
+- [x] Search activity by time range, text, tags
+- [ ] Get all tag names
 - [ ] Export data from firebase to json
 - [ ] Import json data to mongo database using import script
 

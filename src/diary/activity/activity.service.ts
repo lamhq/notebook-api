@@ -2,8 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ObjectId } from 'mongodb';
-import { MongoRepository } from 'typeorm';
-import { Activity } from './activity.entity';
+import { FindManyOptions, MongoRepository, ObjectLiteral } from 'typeorm';
+import { Activity, ActivityQuery } from './activity.entity';
 import { ActivityEvent, ActivityEventType } from './activity.event';
 import { AddActivityDto } from './dto/add-activity.dto';
 import { UpdateActivityDto } from './dto/update-activity.dto';
@@ -21,7 +21,7 @@ export class ActivityService {
       createdAt: new Date(dto.createdAt),
       income: dto.income,
       outcome: dto.outcome,
-      tags: dto.tags.map((tag) => tag.trim()),
+      tags: dto.tags.map((tag) => tag.toLowerCase().trim()),
     });
     const saved = await this.activityRepo.save(activity);
     this.eventEmitter.emit(
@@ -41,7 +41,7 @@ export class ActivityService {
       createdAt: new Date(dto.createdAt),
       income: dto.income,
       outcome: dto.outcome,
-      tags: dto.tags.map((tag) => tag.trim()),
+      tags: dto.tags.map((tag) => tag.toLowerCase().trim()),
     };
 
     await this.activityRepo.findOneAndUpdate({ _id: new ObjectId(activityId) }, { $set: update });
@@ -78,5 +78,48 @@ export class ActivityService {
       }),
     );
     await this.activityRepo.findOneAndDelete({ _id: new ObjectId(activityId) });
+  }
+
+  async findAll(query: ActivityQuery): Promise<[Activity[], number]> {
+    const filter: FindManyOptions<Activity> = {
+      skip: query.offset,
+      take: query.limit,
+      withDeleted: false,
+      order: {
+        createdAt: 'DESC',
+      },
+    };
+
+    filter.where = {};
+
+    if (query.text) {
+      filter.where = {
+        ...filter.where,
+        $text: { $search: query.text },
+      };
+    }
+
+    if (query.tags) {
+      filter.where = {
+        ...filter.where,
+        tags: { $elemMatch: { $in: query.tags } },
+      };
+    }
+
+    if (query.from || query.to) {
+      const range: ObjectLiteral = {};
+      if (query.from) {
+        range.$gt = new Date(query.from);
+      }
+      if (query.to) {
+        range.$lt = new Date(query.to);
+      }
+      filter.where = {
+        ...filter.where,
+        createdAt: range,
+      };
+    }
+
+    return this.activityRepo.findAndCount(filter);
   }
 }

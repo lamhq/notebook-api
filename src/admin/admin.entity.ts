@@ -36,21 +36,6 @@ export class Admin {
   @Column()
   displayName?: string;
 
-  @Expose()
-  @ApiProperty()
-  @Column()
-  description?: string;
-
-  @Expose()
-  @ApiProperty()
-  @Column()
-  gender?: string;
-
-  @Expose()
-  @ApiProperty()
-  @Column()
-  country?: string;
-
   @Exclude()
   @CreateDateColumn()
   createdAt: Date;

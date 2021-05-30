@@ -67,9 +67,6 @@ export class AdminService {
     await this.findOneByIdOrFail(id);
     const updateDoc: Partial<Admin> = {
       displayName: data.displayName,
-      description: data.description,
-      gender: data.gender,
-      country: data.country,
       avatar: data.avatar,
     };
 

@@ -14,4 +14,8 @@ export class Tag {
   @ApiProperty()
   @Column()
   name: string;
+
+  constructor(partial: Partial<Tag>) {
+    Object.assign(this, partial);
+  }
 }
