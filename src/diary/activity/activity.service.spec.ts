@@ -6,7 +6,7 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ObjectId } from 'mongodb';
 import { NotFoundException } from '@nestjs/common';
 import { ActivityService } from './activity.service';
-import { Activity } from './activity.entity';
+import { Activity, ActivityQuery } from './activity.entity';
 import { AddActivityDto } from './dto/add-activity.dto';
 import { ActivityEventType } from './activity.event';
 import { UpdateActivityDto } from './dto/update-activity.dto';
@@ -33,6 +33,7 @@ describe('ActivityService', () => {
 
     service = module.get<ActivityService>(ActivityService);
     eventEmitter.emit.mockReset();
+    activityRepo.findAndCount.mockReset();
   });
 
   it('should be defined', () => {
@@ -138,6 +139,68 @@ describe('ActivityService', () => {
         }),
       );
       findOneByIdOrFail.mockRestore();
+    });
+  });
+
+  describe('findAll', () => {
+    it('should return activities without text in query', async () => {
+      const query: ActivityQuery = {
+        offset: 0,
+        limit: 10,
+      };
+
+      await service.findAll(query);
+      expect(activityRepo.findAndCount).toHaveBeenCalledWith({
+        skip: 0,
+        take: 10,
+        withDeleted: false,
+        where: {},
+        order: {
+          createdAt: 'DESC',
+        },
+      });
+    });
+
+    it('should return activities with text', async () => {
+      const query: ActivityQuery = {
+        offset: 0,
+        limit: 10,
+        text: 'text',
+      };
+
+      await service.findAll(query);
+      expect(activityRepo.findAndCount).toHaveBeenCalledWith({
+        skip: 0,
+        take: 10,
+        withDeleted: false,
+        order: {
+          createdAt: 'DESC',
+        },
+        where: {
+          $text: { $search: query.text },
+        },
+      });
+    });
+
+    it('should return activities with tags', async () => {
+      const query: ActivityQuery = {
+        offset: 0,
+        limit: 10,
+        tags: ['abc'],
+      };
+
+      await service.findAll(query);
+      expect(activityRepo.findAndCount).toHaveBeenCalledWith({
+        skip: 0,
+        take: 10,
+        withDeleted: false,
+        order: {
+          createdAt: 'DESC',
+        },
+        where: {
+          tags: { $elemMatch: { $in: query.tags } },
+        },
+      });
     });
   });
 });

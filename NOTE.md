@@ -17,7 +17,7 @@
 
 ```sh
 git checkout -b feature/search-activity
-git commit -m "feat: search activity"
+git commit -m "feat: search activities"
 git push
 ```
 
@@ -32,8 +32,9 @@ git push
 - [x] Add activity
 - [x] Update activity
 - [x] Delete activity
-- [ ] Seed data script
-- [ ] Search activity by time range, text, tags
+- [x] Seed data script
+- [x] Search activity by time range, text, tags
+- [ ] Get all tag names
 - [ ] Export data from firebase to json
 - [ ] Import json data to mongo database using import script
 

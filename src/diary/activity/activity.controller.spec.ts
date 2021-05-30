@@ -1,9 +1,11 @@
-import { mock } from 'jest-mock-extended';
+import { mock, mockDeep } from 'jest-mock-extended';
 import { Test, TestingModule } from '@nestjs/testing';
+import { Request } from 'express';
 import { ActivityController } from './activity.controller';
 import { ActivityService } from './activity.service';
 import { AddActivityDto } from './dto/add-activity.dto';
 import { UpdateActivityDto } from './dto/update-activity.dto';
+import { Activity, ActivityQuery } from './activity.entity';
 
 describe('Activity Controller', () => {
   let controller: ActivityController;
@@ -61,6 +63,32 @@ describe('Activity Controller', () => {
       const id = '60b1fd2e3c588c0bb68405e7';
       await expect(controller.deleteActivity(id)).resolves.toBeUndefined();
       expect(activityService.deleteActivity).toHaveBeenCalledWith(id);
+    });
+  });
+
+  describe('findAll', () => {
+    it('should success', async () => {
+      const text = 'text';
+      const query: ActivityQuery = {
+        offset: 0,
+        limit: 10,
+        text,
+      };
+      const req = mockDeep<Request>();
+      const result: [Activity[], number] = [[mock<Activity>()], 10];
+      activityService.findAll.mockResolvedValueOnce(result);
+      await expect(
+        controller.findAll(
+          req,
+          query.text,
+          query.from,
+          query.to,
+          query.tags,
+          query.offset,
+          query.limit,
+        ),
+      ).resolves.toBe(result[0]);
+      expect(activityService.findAll).toHaveBeenCalledWith(query);
     });
   });
 });

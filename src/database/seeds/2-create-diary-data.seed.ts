@@ -15,5 +15,11 @@ export default class CreateDiaryData implements Seeder {
     );
     const tags = [...new Set(allTags)];
     await Promise.all(tags.map((tag) => connection.mongoManager.save(new Tag({ name: tag }))));
+
+    // create index
+    await connection.mongoManager.createCollectionIndex(Activity, {
+      content: 'text',
+      tags: 'text',
+    });
   }
 }
