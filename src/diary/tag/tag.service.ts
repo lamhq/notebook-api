@@ -19,4 +19,15 @@ export class TagService {
       );
     }
   }
+
+  async findAll(): Promise<Tag[]> {
+    return this.tagRepo.find({
+      order: { name: 'ASC' },
+    });
+  }
+
+  async findAllTagNames(): Promise<string[]> {
+    const tags = await this.findAll();
+    return tags.map((tag) => tag.name);
+  }
 }
