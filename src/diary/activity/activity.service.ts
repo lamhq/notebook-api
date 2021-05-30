@@ -21,7 +21,7 @@ export class ActivityService {
       createdAt: new Date(dto.createdAt),
       income: dto.income,
       outcome: dto.outcome,
-      tags: dto.tags.map((tag) => tag.trim()),
+      tags: dto.tags.map((tag) => tag.toLowerCase().trim()),
     });
     const saved = await this.activityRepo.save(activity);
     this.eventEmitter.emit(
@@ -41,7 +41,7 @@ export class ActivityService {
       createdAt: new Date(dto.createdAt),
       income: dto.income,
       outcome: dto.outcome,
-      tags: dto.tags.map((tag) => tag.trim()),
+      tags: dto.tags.map((tag) => tag.toLowerCase().trim()),
     };
 
     await this.activityRepo.findOneAndUpdate({ _id: new ObjectId(activityId) }, { $set: update });
