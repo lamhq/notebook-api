@@ -6,10 +6,11 @@ import { Activity } from './activity/activity.entity';
 import { ActivityService } from './activity/activity.service';
 import { Tag } from './tag/tag.entity';
 import { TagService } from './tag/tag.service';
+import { TagController } from './tag/tag.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Activity, Tag]), CommonModule],
-  controllers: [ActivityController],
+  controllers: [ActivityController, TagController],
   providers: [ActivityService, TagService],
 })
 export class DiaryModule {}

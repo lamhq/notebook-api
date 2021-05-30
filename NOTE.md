@@ -16,8 +16,8 @@
 ## Snippets
 
 ```sh
-git checkout -b feature/search-activity
-git commit -m "feat: search activities"
+git checkout -b feature/get-tags
+git commit -m "feat: get tags"
 git push
 ```
 
@@ -34,7 +34,7 @@ git push
 - [x] Delete activity
 - [x] Seed data script
 - [x] Search activity by time range, text, tags
-- [ ] Get all tag names
+- [x] Get all tag names
 - [ ] Export data from firebase to json
 - [ ] Import json data to mongo database using import script
 
@@ -42,6 +42,7 @@ git push
 ### Web
 
 - [ ] Create codebase from Acarium project
+- [ ] Find a UI library for mobile web app
 
 
 ## Improvement
