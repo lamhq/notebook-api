@@ -6,7 +6,9 @@ import { ObjectId } from 'mongodb';
 import { AdminAccountController } from './account.controller';
 import { AdminService } from '../admin.service';
 import { ChangePasswordDto } from './dto/change-password.dto';
-import { UpdateAdminAccountDto } from './dto/update-admin-account.dto';
+import { UpdateProfileDto } from './dto/update-profile.dto';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 
 describe('AdminAccountController', () => {
   let controller: AdminAccountController;
@@ -42,7 +44,7 @@ describe('AdminAccountController', () => {
   });
 
   describe('changePassword', () => {
-    it('should call service', async () => {
+    it('should success', async () => {
       const userId = 'userId';
       const dto: ChangePasswordDto = {
         currentPassword: 'currentPassword',
@@ -53,20 +55,41 @@ describe('AdminAccountController', () => {
     });
   });
 
-  describe('updateAdminSetting', () => {
-    it('should return identity', async () => {
+  describe('updateProfile', () => {
+    it('should success', async () => {
       const req = mock<Request>();
       const res = mock<Response>();
       res.set.mockReturnValue(res);
       req.res = res;
 
-      const dto: UpdateAdminAccountDto = {
+      const dto: UpdateProfileDto = {
         displayName: 'John Smith',
         avatar: '',
       };
       const userId = new ObjectId().toHexString();
-      await expect(controller.updateAdminSetting(userId, dto)).resolves.toBeUndefined();
-      expect(adminService.updateAdminSetting).toHaveBeenCalledWith(userId, dto);
+      await expect(controller.updateProfile(userId, dto)).resolves.toBeUndefined();
+      expect(adminService.updateProfile).toHaveBeenCalledWith(userId, dto);
+    });
+  });
+
+  describe('requestResetPassword', () => {
+    it('should success', async () => {
+      const data: ForgotPasswordDto = {
+        email: 'abd@email.com',
+      };
+      await expect(controller.requestResetPassword(data)).resolves.toBeUndefined();
+      expect(adminService.sendMailRequestResetPwd).toHaveBeenCalledWith(data);
+    });
+  });
+
+  describe('resetPassword', () => {
+    it('should success', async () => {
+      const data: ResetPasswordDto = {
+        token: 'token',
+        password: 'password',
+      };
+      await expect(controller.resetPassword(data)).resolves.toBeUndefined();
+      expect(adminService.resetPassword).toHaveBeenCalledWith(data);
     });
   });
 });

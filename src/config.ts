@@ -32,11 +32,11 @@ export interface Configuration {
 
 export const configFactory = (): Configuration => ({
   nodeEnv: process.env.NODE_ENV || 'development',
-  appName: 'Acarium',
+  appName: 'Notebook',
   webUrl: process.env.WEB_URL || 'http://localhost:3001',
   esUrl: process.env.ES_URL || 'http://localhost:9200',
   auth: {
-    accessTokenLifetime: '24h',
+    accessTokenLifetime: '7d',
     secret: '19001560',
     resetPasswordTokenLifetime: '15m',
   },
@@ -50,7 +50,7 @@ export const configFactory = (): Configuration => ({
   },
   typeorm: {
     type: 'mongodb',
-    url: process.env.DB_URI || 'mongodb://localhost:27017/acarium',
+    url: process.env.DB_URI || 'mongodb://localhost:27017/notebook',
     useUnifiedTopology: true,
     autoLoadEntities: true,
     authSource: 'admin',
@@ -67,7 +67,7 @@ export const configFactory = (): Configuration => ({
         : undefined,
     },
     defaults: {
-      from: 'Acarium <support@acarium.com>',
+      from: 'Notebook <support@notebook.com>',
     },
     template: {
       adapter: new EjsAdapter(),

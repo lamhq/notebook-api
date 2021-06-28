@@ -2,7 +2,7 @@ import { IsNotEmpty } from 'class-validator';
 import { REQUIRED_INPUT_ERROR } from 'src/common/constants/error';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class UpdateAdminAccountDto {
+export class UpdateProfileDto {
   @ApiProperty()
   @IsNotEmpty({ message: REQUIRED_INPUT_ERROR })
   displayName: string;
@@ -10,7 +10,7 @@ export class UpdateAdminAccountDto {
   @ApiProperty()
   avatar: string;
 
-  constructor(partial: Partial<UpdateAdminAccountDto>) {
+  constructor(partial: Partial<UpdateProfileDto>) {
     Object.assign(this, partial);
   }
 }
