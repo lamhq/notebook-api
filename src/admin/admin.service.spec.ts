@@ -109,9 +109,6 @@ describe('AdminService', () => {
     it('should update', async () => {
       const dto: UpdateAdminAccountDto = {
         displayName: 'John Smith',
-        country: 'EN',
-        description: 'description',
-        gender: 'Male',
         avatar: 'avatar',
       };
 

@@ -22,7 +22,6 @@ export class AuthService {
       roles: payload.roles,
       token: this.jwtService.sign(payload),
       expireAt,
-      id: payload.id,
     });
     return token;
   }

@@ -26,10 +26,6 @@ export class Identity {
   @ApiProperty()
   expireAt: Date;
 
-  @Expose()
-  @ApiProperty()
-  id: string;
-
   constructor(partial: Partial<Identity>) {
     Object.assign(this, partial);
   }

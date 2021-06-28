@@ -8,15 +8,6 @@ export class UpdateAdminAccountDto {
   displayName: string;
 
   @ApiProperty()
-  description: string;
-
-  @ApiProperty()
-  gender: string;
-
-  @ApiProperty()
-  country: string;
-
-  @ApiProperty()
   avatar: string;
 
   constructor(partial: Partial<UpdateAdminAccountDto>) {

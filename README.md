@@ -1,6 +1,6 @@
 # Notebook API
 
-A RESTful API Server for Notebook app.
+RESTful API Server for Notebook app.
 
 
 ## Requirements
