@@ -5,15 +5,21 @@ import { MongoRepository } from 'typeorm';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { CommonService } from 'src/common/common.service';
 import { ObjectId } from 'mongodb';
+import { ConfigService } from '@nestjs/config';
+import { MailerService } from '@nestjs-modules/mailer';
 import { AdminService } from './admin.service';
 import { Admin } from './admin.entity';
 import { ChangePasswordDto } from './account/dto/change-password.dto';
-import { UpdateAdminAccountDto } from './account/dto/update-admin-account.dto';
+import { UpdateProfileDto } from './account/dto/update-profile.dto';
+import { ForgotPasswordDto } from './account/dto/forgot-password.dto';
+import { ResetPasswordDto } from './account/dto/reset-password.dto';
 
 describe('AdminService', () => {
   let service: AdminService;
   const adminRepository = mock<MongoRepository<Admin>>();
   const commonService = mock<CommonService>();
+  const configService = mock<ConfigService>();
+  const mailerService = mock<MailerService>();
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -27,6 +33,16 @@ describe('AdminService', () => {
         {
           provide: CommonService,
           useValue: commonService,
+        },
+        // mock configService
+        {
+          provide: ConfigService,
+          useValue: configService,
+        },
+        // mock mailerService
+        {
+          provide: MailerService,
+          useValue: mailerService,
         },
       ],
     }).compile();
@@ -68,7 +84,7 @@ describe('AdminService', () => {
   });
 
   describe('changePassword', () => {
-    it('should call service', async () => {
+    it('should success', async () => {
       const userId = new ObjectId().toHexString();
       const dto: ChangePasswordDto = {
         currentPassword: 'currentPassword',
@@ -105,13 +121,10 @@ describe('AdminService', () => {
     });
   });
 
-  describe('updateSellerSetting', () => {
-    it('should update', async () => {
-      const dto: UpdateAdminAccountDto = {
+  describe('updateProfile', () => {
+    it('should success', async () => {
+      const dto: UpdateProfileDto = {
         displayName: 'John Smith',
-        country: 'EN',
-        description: 'description',
-        gender: 'Male',
         avatar: 'avatar',
       };
 
@@ -131,8 +144,65 @@ describe('AdminService', () => {
       const hashPassword = jest.spyOn(commonService, 'comparePassword');
       hashPassword.mockResolvedValueOnce(true);
 
-      await service.updateAdminSetting(userId.toHexString(), dto);
+      await service.updateProfile(userId.toHexString(), dto);
       expect(adminRepository.updateOne).toHaveBeenCalled();
+    });
+  });
+
+  describe('sendMailRequestResetPwd', () => {
+    it('should success', async () => {
+      const admin: Admin = {
+        id: new ObjectId(),
+        displayName: 'admin',
+        email: 'test@mail.com',
+      } as Admin;
+      const findOneByEmail = jest.spyOn(service, 'findOneByEmailOrFail');
+      findOneByEmail.mockResolvedValueOnce(admin);
+      configService.get
+        .mockReturnValueOnce('2d')
+        .mockReturnValueOnce('Notebook')
+        .mockReturnValueOnce('http://notebook.com');
+      commonService.createToken.mockReturnValueOnce('token');
+
+      const data: ForgotPasswordDto = {
+        email: 'test@mail.com',
+      };
+      await service.sendMailRequestResetPwd(data);
+      expect(mailerService.sendMail).toHaveBeenCalledWith({
+        to: `${admin.displayName} <${admin.email}>`,
+        subject: 'Notebook - Password reset request',
+        template: 'reset-password',
+        context: {
+          appName: 'Notebook',
+          link: 'http://notebook.com/reset-pwd?token=token',
+        },
+      });
+
+      findOneByEmail.mockRestore();
+    });
+  });
+
+  describe('resetPassword', () => {
+    it('should success', async () => {
+      const id = '5f9550e2f0d5c00715568108';
+      commonService.verifyToken.mockReturnValueOnce(id);
+      const findOneByIdOrFail = jest.spyOn(service, 'findOneByIdOrFail');
+      findOneByIdOrFail.mockResolvedValueOnce({} as Admin);
+      commonService.hashPassword.mockResolvedValueOnce('hashpwd');
+      const data: ResetPasswordDto = {
+        token: 'token',
+        password: 'password',
+      };
+
+      await expect(service.resetPassword(data)).resolves.toBeUndefined();
+      expect(adminRepository.updateOne).toHaveBeenCalledWith(
+        { _id: new ObjectId(id) },
+        {
+          $set: { password: 'hashpwd' },
+        },
+      );
+
+      findOneByIdOrFail.mockRestore();
     });
   });
 });
