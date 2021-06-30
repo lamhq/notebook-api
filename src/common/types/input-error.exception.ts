@@ -1,6 +1,5 @@
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, HttpStatus } from '@nestjs/common';
 import { ValidationError } from 'class-validator';
-import { INPUT_ERROR } from '../constants/error';
 
 type ErrorValue = string | [ErrorDetails];
 
@@ -24,10 +23,12 @@ export function getErrorDetails(errors: ValidationError[]): ErrorDetails {
 }
 
 export class InputErrorException extends BadRequestException {
-  constructor(errors: ValidationError[]) {
+  constructor(errors: ValidationError[] | ErrorDetails) {
+    const details = Array.isArray(errors) ? getErrorDetails(errors) : errors;
     super({
-      error: INPUT_ERROR,
-      details: getErrorDetails(errors),
+      message: 'Invalid form data',
+      statusCode: HttpStatus.BAD_REQUEST,
+      details,
     });
   }
 }

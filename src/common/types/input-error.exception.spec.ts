@@ -1,7 +1,6 @@
 import { ValidationError } from 'class-validator';
 import { BadRequestException } from '@nestjs/common';
 import { InputErrorException } from './input-error.exception';
-import { INPUT_ERROR } from '../constants/error';
 
 jest.mock('@nestjs/common', () => ({
   __esModule: true, // this property makes it work
@@ -30,7 +29,6 @@ describe('InputErrorException', () => {
       // eslint-disable-next-line no-empty
     } catch (error) {}
     expect(BadRequestException).toHaveBeenCalledWith({
-      error: INPUT_ERROR,
       details: {
         email: 'is required',
         addresses: [{ phone: 'is required' }],

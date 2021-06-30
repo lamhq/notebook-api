@@ -6,7 +6,6 @@ import {
   ValidatorConstraintInterface,
 } from 'class-validator';
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { RUNTIME_ERROR } from './constants/error';
 import { CommonService } from './common.service';
 
 @ValidatorConstraint({ async: true })
@@ -16,7 +15,7 @@ export class PasswordValidator implements ValidatorConstraintInterface {
 
   async validate(value: string, validationArguments?: ValidationArguments): Promise<boolean> {
     if (!validationArguments || !validationArguments.constraints) {
-      throw new InternalServerErrorException({ error: RUNTIME_ERROR });
+      throw new InternalServerErrorException();
     }
     const [hashed] = validationArguments.constraints as [string];
     return this.commonService.comparePassword(value, hashed);

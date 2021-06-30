@@ -1,12 +1,12 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ObjectId } from 'mongodb';
 import { ISendMailOptions, MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import { CommonService } from 'src/common/common.service';
-import { INPUT_ERROR, PASSWORD_NOT_MATCH } from 'src/common/constants/error';
-import { ErrorResponse } from 'src/common/types/error-response';
+import { PASSWORD_INPUT_ERROR } from 'src/common/constants/error';
 import { MongoRepository } from 'typeorm';
+import { InputErrorException } from 'src/common/types/input-error.exception';
 import { ChangePasswordDto } from './account/dto/change-password.dto';
 import { UpdateProfileDto } from './account/dto/update-profile.dto';
 import { Admin } from './admin.entity';
@@ -56,13 +56,7 @@ export class AdminService {
       user.password,
     );
     if (!isPwdValid) {
-      const error: ErrorResponse = {
-        error: INPUT_ERROR,
-        details: { currentPassword: PASSWORD_NOT_MATCH },
-        message: 'Invalid input',
-      };
-
-      throw new BadRequestException(error);
+      throw new InputErrorException({ currentPassword: PASSWORD_INPUT_ERROR });
     }
     user.password = await this.commonService.hashPassword(data.newPassword);
 

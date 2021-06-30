@@ -1,9 +1,11 @@
 import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { CommonService } from 'src/common/common.service';
 import { AdminService } from 'src/admin/admin.service';
 import { Admin } from 'src/admin/admin.entity';
+import { PASSWORD_INPUT_ERROR } from 'src/common/constants/error';
+import { InputErrorException } from 'src/common/types/input-error.exception';
 
 @Injectable()
 // With @nestjs/passport, you configure a Passport strategy by extending the PassportStrategy class.
@@ -26,7 +28,7 @@ export class AdminLocalAuthStrategy extends PassportStrategy(Strategy, 'admin-lo
   async validate(username: string, password: string): Promise<Admin | undefined> {
     const admin = await this.validateAdmin(username, password);
     if (!admin) {
-      throw new UnauthorizedException();
+      throw new InputErrorException({ currentPassword: PASSWORD_INPUT_ERROR });
     }
     return admin;
   }
