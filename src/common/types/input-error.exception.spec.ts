@@ -5,7 +5,9 @@ import { InputErrorException } from './input-error.exception';
 jest.mock('@nestjs/common', () => ({
   __esModule: true, // this property makes it work
   BadRequestException: jest.fn(),
+  HttpStatus: { BAD_REQUEST: 400 },
 }));
+
 describe('InputErrorException', () => {
   it('should pass error object to BadRequestException', () => {
     // const constructor = jest.spyOn(common, 'BadRequestException');
@@ -29,6 +31,8 @@ describe('InputErrorException', () => {
       // eslint-disable-next-line no-empty
     } catch (error) {}
     expect(BadRequestException).toHaveBeenCalledWith({
+      statusCode: 400,
+      message: 'Invalid form data',
       details: {
         email: 'is required',
         addresses: [{ phone: 'is required' }],
