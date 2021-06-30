@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { mock } from 'jest-mock-extended';
-import { UnauthorizedException } from '@nestjs/common';
+import { BadRequestException } from '@nestjs/common';
 import { CommonService } from 'src/common/common.service';
 import { ObjectId } from 'mongodb';
 import { AdminService } from 'src/admin/admin.service';
@@ -51,7 +51,7 @@ describe('AdminLocalAuthStrategy', () => {
   it('should throw exception when admin is not found', async () => {
     adminService.findOneByEmail.mockResolvedValue(undefined);
     await expect(strategy.validate(formData.email, formData.password)).rejects.toEqual(
-      expect.any(UnauthorizedException),
+      expect.any(BadRequestException),
     );
     expect(adminService.findOneByEmail).toHaveBeenCalledWith(formData.email);
     expect(commonService.comparePassword).not.toHaveBeenCalled();
@@ -60,7 +60,7 @@ describe('AdminLocalAuthStrategy', () => {
     adminService.findOneByEmail.mockResolvedValue(admin);
     commonService.comparePassword.mockResolvedValue(false);
     await expect(strategy.validate('john@example.com', 'password')).rejects.toEqual(
-      expect.any(UnauthorizedException),
+      expect.any(BadRequestException),
     );
     expect(adminService.findOneByEmail).toHaveBeenCalledWith('john@example.com');
     expect(commonService.comparePassword).toHaveBeenCalledWith(formData.password, admin.password);

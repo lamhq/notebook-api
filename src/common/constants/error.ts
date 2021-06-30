@@ -2,10 +2,7 @@
  * FIELD ERRORS (error codes for errorResponse.details)
  */
 export const REQUIRED_INPUT_ERROR = 'REQUIRED';
-export const EMAIL_INPUT_ERROR = 'INVALID_EMAIL';
 export const LENGTH_INPUT_ERROR = 'INVALID_LENGTH';
-export const UNAVAILABLE_INPUT_ERROR = 'UNAVAILABLE';
-export const OTP_INPUT_ERROR = 'INVALID_OTP';
 export const PHONE_INPUT_ERROR = 'INVALID_PHONE';
 export const PAYMENT_METHOD_INPUT_ERROR = 'INVALID_PAYMENT_METHOD';
 export const ID_INPUT_ERROR = 'INVALID_ID';
@@ -15,14 +12,3 @@ export const NOT_EXIST_INPUT_ERROR = 'NOT_EXISTED';
 export const MIN_INPUT_ERROR = 'INVALID_MINIMUM_VALUE';
 export const MAX_INPUT_ERROR = 'INVALID_MAXIMUM_VALUE';
 export const PASSWORD_INPUT_ERROR = 'PASSWORD_INPUT_ERROR';
-
-/**
- * REQUEST ERRORS (error codes for errorResponse.error)
- */
-export const INPUT_ERROR = 'INVADLID_INPUT';
-export const PHONE_NOT_SET_ERROR = 'PHONE_IS_NOT_SET';
-export const INVALID_ID = 'INVALID_ID';
-export const DB_OPREATION_ERROR = 'ERROR_IN_DB_OPERATION';
-export const RUNTIME_ERROR = 'SOMETHING_WENT_WRONG';
-export const CART_NOT_FOUND = 'CART_NOT_FOUND';
-export const PASSWORD_NOT_MATCH = 'PASSWORD_NOT_MATCH';

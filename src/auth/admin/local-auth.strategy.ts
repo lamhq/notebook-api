@@ -1,6 +1,6 @@
 import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CommonService } from 'src/common/common.service';
 import { AdminService } from 'src/admin/admin.service';
 import { Admin } from 'src/admin/admin.entity';
@@ -26,7 +26,7 @@ export class AdminLocalAuthStrategy extends PassportStrategy(Strategy, 'admin-lo
   async validate(username: string, password: string): Promise<Admin | undefined> {
     const admin = await this.validateAdmin(username, password);
     if (!admin) {
-      throw new UnauthorizedException();
+      throw new BadRequestException('Invalid email or password.');
     }
     return admin;
   }

@@ -6,14 +6,13 @@ import {
   ValidatorConstraintInterface,
 } from 'class-validator';
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { RUNTIME_ERROR } from './constants/error';
 
 @ValidatorConstraint({ async: true })
 @Injectable()
 export class UniqueValueValidator implements ValidatorConstraintInterface {
   async validate(value: string, validationArguments?: ValidationArguments): Promise<boolean> {
     if (!validationArguments || !validationArguments.constraints) {
-      throw new InternalServerErrorException({ error: RUNTIME_ERROR });
+      throw new InternalServerErrorException();
     }
     const values = validationArguments.constraints as string[];
     const isDuplicated = values.filter((item) => item === value).length > 1;

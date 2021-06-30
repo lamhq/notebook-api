@@ -19,8 +19,8 @@ import { Identity } from '../types/identity';
 export class AdminAuthController {
   constructor(private readonly authService: AuthService, private adminService: AdminService) {}
 
-  @UseGuards(AdminLocalAuthGuard)
   @Post('tokens')
+  @UseGuards(AdminLocalAuthGuard)
   @ApiBody({ type: CreateTokenDto })
   @ApiOperation({ summary: 'Admin login' })
   @ApiOkResponse({ type: Identity })
