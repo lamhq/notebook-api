@@ -33,7 +33,7 @@ describe('Activity Controller', () => {
     it('should success', async () => {
       const dto: AddActivityDto = {
         content: 'test',
-        createdAt: '2021-10-10',
+        time: '2021-10-10',
         income: 0,
         outcome: 0,
         tags: ['abc', 'def'],
@@ -48,7 +48,7 @@ describe('Activity Controller', () => {
       const id = '60b1fd2e3c588c0bb68405e7';
       const dto: UpdateActivityDto = {
         content: 'test',
-        createdAt: '2021-10-10',
+        time: '2021-10-10',
         income: 0,
         outcome: 0,
         tags: ['abc', 'def'],

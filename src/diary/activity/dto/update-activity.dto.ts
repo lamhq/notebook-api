@@ -9,7 +9,7 @@ export class UpdateActivityDto {
 
   @ApiProperty()
   @IsNotEmpty({ message: REQUIRED_INPUT_ERROR })
-  createdAt: string;
+  time: string;
 
   @ApiProperty()
   tags: string[] = [];

@@ -18,7 +18,7 @@ export class ActivityService {
   async addActivity(dto: AddActivityDto): Promise<Activity> {
     const activity = new Activity({
       content: dto.content,
-      createdAt: new Date(dto.createdAt),
+      time: new Date(dto.time),
       income: dto.income,
       outcome: dto.outcome,
       tags: dto.tags.map((tag) => tag.toLowerCase().trim()),
@@ -38,7 +38,7 @@ export class ActivityService {
     await this.findOneByIdOrFail(activityId);
     const update = {
       content: dto.content,
-      createdAt: new Date(dto.createdAt),
+      time: new Date(dto.time),
       income: dto.income,
       outcome: dto.outcome,
       tags: dto.tags.map((tag) => tag.toLowerCase().trim()),
@@ -86,7 +86,7 @@ export class ActivityService {
       take: query.limit,
       withDeleted: false,
       order: {
-        createdAt: 'DESC',
+        time: 'DESC',
       },
     };
 
@@ -116,7 +116,7 @@ export class ActivityService {
       }
       filter.where = {
         ...filter.where,
-        createdAt: range,
+        time: range,
       };
     }
 
