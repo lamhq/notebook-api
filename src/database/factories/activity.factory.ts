@@ -6,7 +6,7 @@ define(Activity, (faker) => {
     content: faker.lorem.sentence(5),
     income: faker.random.number(1000),
     outcome: faker.random.number(1000),
-    createdAt: faker.date.past(),
+    time: faker.date.past(),
     tags: [
       ...new Set(
         new Array(faker.random.number(5)).fill(null).map(() => faker.random.word().toLowerCase()),

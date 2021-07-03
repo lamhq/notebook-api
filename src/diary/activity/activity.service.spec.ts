@@ -44,7 +44,7 @@ describe('ActivityService', () => {
     it('should success', async () => {
       const dto: AddActivityDto = {
         content: 'test',
-        createdAt: '2021-10-10',
+        time: '2021-10-10',
         income: 0,
         outcome: 0,
         tags: ['abc', 'def'],
@@ -79,7 +79,7 @@ describe('ActivityService', () => {
       const id = '60b1fd2e3c588c0bb68405e7';
       const dto: UpdateActivityDto = {
         content: 'test',
-        createdAt: '2021-10-10',
+        time: '2021-10-10',
         income: 0,
         outcome: 0,
         tags: ['abc', 'def'],
@@ -88,12 +88,12 @@ describe('ActivityService', () => {
         expect.objectContaining({
           ...dto,
           id: new ObjectId(id),
-          createdAt: new Date(dto.createdAt),
+          time: new Date(dto.time),
         }),
       );
       expect(activityRepo.findOneAndUpdate).toHaveBeenCalledWith(
         { _id: new ObjectId(id) },
-        { $set: expect.objectContaining({ ...dto, createdAt: new Date(dto.createdAt) }) },
+        { $set: expect.objectContaining({ ...dto, time: new Date(dto.time) }) },
       );
       expect(eventEmitter.emit).toHaveBeenCalledWith(
         'activity.updated',
@@ -156,7 +156,7 @@ describe('ActivityService', () => {
         withDeleted: false,
         where: {},
         order: {
-          createdAt: 'DESC',
+          time: 'DESC',
         },
       });
     });
@@ -174,7 +174,7 @@ describe('ActivityService', () => {
         take: 10,
         withDeleted: false,
         order: {
-          createdAt: 'DESC',
+          time: 'DESC',
         },
         where: {
           $text: { $search: query.text },
@@ -195,7 +195,7 @@ describe('ActivityService', () => {
         take: 10,
         withDeleted: false,
         order: {
-          createdAt: 'DESC',
+          time: 'DESC',
         },
         where: {
           tags: { $elemMatch: { $in: query.tags } },

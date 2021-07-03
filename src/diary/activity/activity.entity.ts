@@ -19,7 +19,7 @@ export class Activity {
   @Expose()
   @ApiProperty({ description: 'When the activity happens' })
   @Column()
-  createdAt: Date;
+  time: Date;
 
   @Expose()
   @ApiProperty({ description: 'List of tags of the activity' })
