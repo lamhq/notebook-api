@@ -1,15 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import {
-  INestApplication,
-  ClassSerializerInterceptor,
-  ValidationPipe,
-  ValidationError,
-} from '@nestjs/common';
+import { INestApplication, ClassSerializerInterceptor, ValidationError } from '@nestjs/common';
 import { useContainer } from 'class-validator';
 import cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
 import { InputErrorException } from './common/types/input-error.exception';
+import { ValidationPipe } from './common/pipes/validation-pipe';
 
 function attachSwaggerModule(app: INestApplication) {
   const options = new DocumentBuilder()
