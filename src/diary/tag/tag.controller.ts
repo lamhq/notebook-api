@@ -7,7 +7,6 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { AdminJwtAuthGuard } from 'src/auth/admin/jwt-auth.guard';
-import { Tag } from './tag.entity';
 import { TagService } from './tag.service';
 
 @UseGuards(AdminJwtAuthGuard)
@@ -22,7 +21,7 @@ export class TagController {
   @ApiOperation({ summary: 'Get all tags' })
   @ApiOkResponse({
     description: 'Tag list',
-    type: Tag,
+    type: String,
     isArray: true,
   })
   async findAll(): Promise<string[]> {

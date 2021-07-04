@@ -7,10 +7,12 @@ import { ActivityService } from './activity/activity.service';
 import { Tag } from './tag/tag.entity';
 import { TagService } from './tag/tag.service';
 import { TagController } from './tag/tag.controller';
+import { StatController } from './stat/stat.controller';
+import { StatService } from './stat/stat.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Activity, Tag]), CommonModule],
-  controllers: [ActivityController, TagController],
-  providers: [ActivityService, TagService],
+  controllers: [ActivityController, TagController, StatController],
+  providers: [ActivityService, TagService, StatService],
 })
 export class DiaryModule {}
