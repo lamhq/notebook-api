@@ -27,6 +27,7 @@ import {
 import { Request } from 'express';
 import { AdminJwtAuthGuard } from 'src/auth/admin/jwt-auth.guard';
 import { RES_HEADER_TOTAL_COUNT } from 'src/common/constants/pagination';
+import { ParseDatePipe } from 'src/common/pipes/parse-date.pipe';
 import { ErrorResponse } from 'src/common/types/error-response';
 import { Activity, ActivityQuery } from './activity.entity';
 import { ActivityService } from './activity.service';
@@ -100,9 +101,9 @@ export class ActivityController {
   async findAll(
     @Req() req: Request,
     @Query('text') text?: string,
-    @Query('from') from?: string,
-    @Query('to') to?: string,
     @Query('tags', new ParseArrayPipe({ optional: true })) tags?: string[],
+    @Query('from', ParseDatePipe) from?: Date,
+    @Query('to', ParseDatePipe) to?: Date,
     @Query('offset', new DefaultValuePipe(0), ParseIntPipe) offset?: number,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit?: number,
   ): Promise<Activity[]> {

@@ -44,6 +44,6 @@ export class Activity {
 export interface ActivityQuery extends PaginationQuery {
   text?: string;
   tags?: string[];
-  from?: string;
-  to?: string;
+  from?: Date;
+  to?: Date;
 }

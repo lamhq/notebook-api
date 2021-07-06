@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Get, Query } from '@nestjs/common';
+import { Controller, UseGuards, Get, Query, ParseArrayPipe } from '@nestjs/common';
 import {
   ApiOperation,
   ApiBearerAuth,
@@ -9,6 +9,7 @@ import {
 } from '@nestjs/swagger';
 import { AdminJwtAuthGuard } from 'src/auth/admin/jwt-auth.guard';
 import { ParseDatePipe } from 'src/common/pipes/parse-date.pipe';
+import { ActivityQuery } from '../activity/activity.entity';
 import { Revenue } from './revenue.entity';
 import { StatService } from './stat.service';
 
@@ -22,6 +23,15 @@ export class StatController {
 
   @Get('revenue')
   @ApiOperation({ summary: 'Get revenue' })
+  @ApiQuery({
+    required: false,
+    name: 'tags',
+    style: 'form',
+    type: String,
+    isArray: true,
+    explode: false,
+  })
+  @ApiQuery({ name: 'text', required: false })
   @ApiQuery({ name: 'from', required: false })
   @ApiQuery({ name: 'to', required: false })
   @ApiOkResponse({
@@ -30,9 +40,17 @@ export class StatController {
     isArray: true,
   })
   async getRevenue(
+    @Query('text') text?: string,
+    @Query('tags', new ParseArrayPipe({ optional: true })) tags?: string[],
     @Query('from', ParseDatePipe) from?: Date,
     @Query('to', ParseDatePipe) to?: Date,
   ): Promise<Revenue> {
-    return this.statService.getRevenue(from, to);
+    const criteria: ActivityQuery = {
+      text,
+      tags,
+      from,
+      to,
+    };
+    return this.statService.getRevenue(criteria);
   }
 }

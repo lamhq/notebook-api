@@ -4,7 +4,7 @@ import { MongoRepository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { AggregationCursor } from 'mongodb';
 import { StatService } from './stat.service';
-import { Activity } from '../activity/activity.entity';
+import { Activity, ActivityQuery } from '../activity/activity.entity';
 import { Revenue } from './revenue.entity';
 
 describe('StatService', () => {
@@ -30,30 +30,34 @@ describe('StatService', () => {
   });
 
   describe('getRevenue', () => {
-    it('should run without parameters', async () => {
-      const revenue: Revenue = { income: 10, outcome: 20 };
-      const cursor = mock<AggregationCursor<Revenue>>();
-      cursor.toArray.mockImplementation(() => Promise.resolve([revenue]));
-      activityRepo.aggregate.mockReturnValue(cursor);
+    const revenue: Revenue = { income: 10, outcome: 20 };
+    const cursor = mock<AggregationCursor<Revenue>>();
+    cursor.toArray.mockImplementation(() => Promise.resolve([revenue]));
+    activityRepo.aggregate.mockReturnValue(cursor);
 
-      await expect(service.getRevenue()).resolves.toBe(revenue);
+    it('should filter by text, time', async () => {
+      const query: ActivityQuery = {
+        text: 'abc',
+        from: new Date(),
+      };
+
+      await expect(service.getRevenue(query)).resolves.toBe(revenue);
       expect(activityRepo.aggregate).toHaveBeenCalledWith([
+        { $match: { $text: { $search: query.text }, time: { $gt: query.from } } },
         {
           $group: { _id: 'all', income: { $sum: '$income' }, outcome: { $sum: '$outcome' } },
         },
       ]);
     });
 
-    it('should run with parameters', async () => {
-      const revenue: Revenue = { income: 10, outcome: 20 };
-      const cursor = mock<AggregationCursor<Revenue>>();
-      cursor.toArray.mockImplementation(() => Promise.resolve([revenue]));
-      activityRepo.aggregate.mockReturnValue(cursor);
-      const from = new Date();
+    it('should filter by tags', async () => {
+      const query: ActivityQuery = {
+        tags: ['abc'],
+      };
 
-      await expect(service.getRevenue(from)).resolves.toBe(revenue);
+      await expect(service.getRevenue(query)).resolves.toBe(revenue);
       expect(activityRepo.aggregate).toHaveBeenCalledWith([
-        { $match: { time: { $gt: from } } },
+        { $match: { tags: { $elemMatch: { $in: query.tags } } } },
         {
           $group: { _id: 'all', income: { $sum: '$income' }, outcome: { $sum: '$outcome' } },
         },

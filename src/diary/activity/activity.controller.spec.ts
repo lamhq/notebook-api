@@ -68,11 +68,10 @@ describe('Activity Controller', () => {
 
   describe('findAll', () => {
     it('should success', async () => {
-      const text = 'text';
       const query: ActivityQuery = {
         offset: 0,
         limit: 10,
-        text,
+        text: 'text',
       };
       const req = mockDeep<Request>();
       const result: [Activity[], number] = [[mock<Activity>()], 10];
@@ -81,9 +80,9 @@ describe('Activity Controller', () => {
         controller.findAll(
           req,
           query.text,
+          query.tags,
           query.from,
           query.to,
-          query.tags,
           query.offset,
           query.limit,
         ),
