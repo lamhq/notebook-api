@@ -109,10 +109,10 @@ export class ActivityService {
     if (query.from || query.to) {
       const range: ObjectLiteral = {};
       if (query.from) {
-        range.$gt = new Date(query.from);
+        range.$gt = query.from;
       }
       if (query.to) {
-        range.$lt = new Date(query.to);
+        range.$lt = query.to;
       }
       filter.where = {
         ...filter.where,
