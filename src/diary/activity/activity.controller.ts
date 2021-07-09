@@ -72,6 +72,14 @@ export class ActivityController {
     await this.activityService.deleteActivity(id);
   }
 
+  @Get(':id')
+  @ApiOperation({ summary: 'Get activity detail' })
+  @ApiOkResponse({ type: Activity })
+  @ApiNotFoundResponse({ description: 'Activity not found' })
+  async getActivityDetail(@Param('id') id: string): Promise<Activity> {
+    return this.activityService.findOneByIdOrFail(id);
+  }
+
   @Get()
   @ApiOperation({ summary: 'Search activities' })
   @ApiQuery({

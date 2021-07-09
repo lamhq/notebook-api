@@ -1,4 +1,4 @@
-import { IsInt, IsNotEmpty, IsOptional } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsPositive } from 'class-validator';
 import { REQUIRED_INPUT_ERROR } from 'src/common/constants/error';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -15,12 +15,12 @@ export class AddActivityDto {
   tags: string[] = [];
 
   @ApiProperty()
-  @IsInt()
   @IsOptional()
+  @IsPositive()
   income: number;
 
   @ApiProperty()
-  @IsInt()
   @IsOptional()
+  @IsPositive()
   outcome: number;
 }
