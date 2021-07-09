@@ -73,7 +73,10 @@ export class AdminService {
   }
 
   async sendMailRequestResetPwd(data: ForgotPasswordDto): Promise<void> {
-    const user = await this.findOneByEmailOrFail(data.email);
+    const user = await this.findOneByEmail(data.email);
+    if (!user) {
+      throw new InputErrorException({ email: 'This email does not exist in our system.' });
+    }
     const duration = await this.configService.get<string>('auth.resetPasswordTokenLifetime');
     const appName = this.configService.get<string>('appName');
     const webUrl = this.configService.get<string>('webUrl');
