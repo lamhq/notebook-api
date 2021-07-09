@@ -7,6 +7,7 @@ import { CommonService } from 'src/common/common.service';
 import { ObjectId } from 'mongodb';
 import { ConfigService } from '@nestjs/config';
 import { MailerService } from '@nestjs-modules/mailer';
+import { InputErrorException } from 'src/common/types/input-error.exception';
 import { AdminService } from './admin.service';
 import { Admin } from './admin.entity';
 import { ChangePasswordDto } from './account/dto/change-password.dto';
@@ -150,13 +151,17 @@ describe('AdminService', () => {
   });
 
   describe('sendMailRequestResetPwd', () => {
+    const data: ForgotPasswordDto = {
+      email: 'test@mail.com',
+    };
+
     it('should success', async () => {
       const admin: Admin = {
         id: new ObjectId(),
         displayName: 'admin',
         email: 'test@mail.com',
       } as Admin;
-      const findOneByEmail = jest.spyOn(service, 'findOneByEmailOrFail');
+      const findOneByEmail = jest.spyOn(service, 'findOneByEmail');
       findOneByEmail.mockResolvedValueOnce(admin);
       configService.get
         .mockReturnValueOnce('2d')
@@ -164,9 +169,6 @@ describe('AdminService', () => {
         .mockReturnValueOnce('http://notebook.com');
       commonService.createToken.mockReturnValueOnce('token');
 
-      const data: ForgotPasswordDto = {
-        email: 'test@mail.com',
-      };
       await service.sendMailRequestResetPwd(data);
       expect(mailerService.sendMail).toHaveBeenCalledWith({
         to: `${admin.displayName} <${admin.email}>`,
@@ -177,7 +179,16 @@ describe('AdminService', () => {
           link: 'http://notebook.com/reset-pwd?token=token',
         },
       });
+      expect(findOneByEmail).toHaveBeenCalledWith(data.email);
+      findOneByEmail.mockRestore();
+    });
 
+    it('should throw exception when email does not exist', async () => {
+      const findOneByEmail = jest.spyOn(service, 'findOneByEmail');
+      findOneByEmail.mockResolvedValueOnce(undefined);
+      await expect(service.sendMailRequestResetPwd(data)).rejects.toEqual(
+        expect.any(InputErrorException),
+      );
       findOneByEmail.mockRestore();
     });
   });
