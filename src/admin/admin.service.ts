@@ -4,7 +4,6 @@ import { ObjectId } from 'mongodb';
 import { ISendMailOptions, MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '@nestjs/config';
 import { CommonService } from 'src/common/common.service';
-import { PASSWORD_INPUT_ERROR } from 'src/common/constants/error';
 import { MongoRepository } from 'typeorm';
 import { InputErrorException } from 'src/common/types/input-error.exception';
 import { ChangePasswordDto } from './account/dto/change-password.dto';
@@ -56,7 +55,7 @@ export class AdminService {
       user.password,
     );
     if (!isPwdValid) {
-      throw new InputErrorException({ currentPassword: PASSWORD_INPUT_ERROR });
+      throw new InputErrorException({ currentPassword: 'Current password is wrong' });
     }
     user.password = await this.commonService.hashPassword(data.newPassword);
 

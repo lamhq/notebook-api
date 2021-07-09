@@ -66,6 +66,14 @@ describe('Activity Controller', () => {
     });
   });
 
+  describe('getActivityDetail', () => {
+    it('should success', async () => {
+      const id = '60b1fd2e3c588c0bb68405e7';
+      await expect(controller.getActivityDetail(id)).resolves.toBeUndefined();
+      expect(activityService.findOneByIdOrFail).toHaveBeenCalledWith(id);
+    });
+  });
+
   describe('findAll', () => {
     it('should success', async () => {
       const query: ActivityQuery = {
