@@ -23,7 +23,7 @@ export class UploadService {
   constructor(configService: ConfigService) {
     const awsConfig = configService.get<Configuration['aws']>('aws');
     if (!awsConfig) {
-      throw new Error('Invalid system configuration. Aws config is not set.');
+      throw new Error('Invalid system configuration. AWS config is not set.');
     }
     this.awsConfig = awsConfig;
   }

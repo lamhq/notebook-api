@@ -194,16 +194,17 @@ describe('AdminService', () => {
   });
 
   describe('resetPassword', () => {
+    const data: ResetPasswordDto = {
+      token: 'token',
+      password: 'password',
+    };
+
     it('should success', async () => {
       const id = '5f9550e2f0d5c00715568108';
       commonService.verifyToken.mockReturnValueOnce(id);
       const findOneByIdOrFail = jest.spyOn(service, 'findOneByIdOrFail');
       findOneByIdOrFail.mockResolvedValueOnce({} as Admin);
       commonService.hashPassword.mockResolvedValueOnce('hashpwd');
-      const data: ResetPasswordDto = {
-        token: 'token',
-        password: 'password',
-      };
 
       await expect(service.resetPassword(data)).resolves.toBeUndefined();
       expect(adminRepository.updateOne).toHaveBeenCalledWith(
@@ -214,6 +215,13 @@ describe('AdminService', () => {
       );
 
       findOneByIdOrFail.mockRestore();
+    });
+
+    it('should throw exception', async () => {
+      commonService.verifyToken.mockImplementationOnce(() => {
+        throw new Error();
+      });
+      await expect(service.resetPassword(data)).rejects.toEqual(expect.any(BadRequestException));
     });
   });
 });

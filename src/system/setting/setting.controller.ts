@@ -22,7 +22,7 @@ export class SettingController {
   async getSettingValue(@Param('key') key: string): Promise<string> {
     const result = await this.settingService.getSettingValue(key);
     if (!result) {
-      throw new NotFoundException();
+      throw new NotFoundException('Setting not found');
     }
     return result;
   }

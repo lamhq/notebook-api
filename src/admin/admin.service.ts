@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ObjectId } from 'mongodb';
 import { ISendMailOptions, MailerService } from '@nestjs-modules/mailer';
@@ -30,7 +30,7 @@ export class AdminService {
       const user = await this.adminRepository.findOneOrFail({ email });
       return user;
     } catch (error) {
-      throw new NotFoundException();
+      throw new NotFoundException('Account not found');
     }
   }
 
@@ -43,7 +43,7 @@ export class AdminService {
       const user = await this.adminRepository.findOneOrFail(id);
       return user;
     } catch (error) {
-      throw new NotFoundException();
+      throw new NotFoundException('Account not found');
     }
   }
 
@@ -95,7 +95,12 @@ export class AdminService {
   }
 
   async resetPassword(data: ResetPasswordDto): Promise<void> {
-    const id = this.commonService.verifyToken(data.token);
+    let id: string;
+    try {
+      id = this.commonService.verifyToken(data.token);
+    } catch (error) {
+      throw new BadRequestException('Reset password token is invalid or expired.');
+    }
     await this.findOneByIdOrFail(id);
     const updateDoc: Partial<Admin> = {
       password: await this.commonService.hashPassword(data.password),
