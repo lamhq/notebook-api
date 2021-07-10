@@ -64,7 +64,7 @@ export class ActivityService {
       const activity = await this.activityRepo.findOneOrFail(activityId);
       return activity;
     } catch (error) {
-      throw new NotFoundException();
+      throw new NotFoundException('Activity not found');
     }
   }
 

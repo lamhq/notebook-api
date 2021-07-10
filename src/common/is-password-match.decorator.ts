@@ -15,7 +15,7 @@ export class PasswordValidator implements ValidatorConstraintInterface {
 
   async validate(value: string, validationArguments?: ValidationArguments): Promise<boolean> {
     if (!validationArguments || !validationArguments.constraints) {
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException('Wrong arguments for PasswordValidator');
     }
     const [hashed] = validationArguments.constraints as [string];
     return this.commonService.comparePassword(value, hashed);

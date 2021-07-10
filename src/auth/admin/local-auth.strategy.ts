@@ -26,7 +26,7 @@ export class AdminLocalAuthStrategy extends PassportStrategy(Strategy, 'admin-lo
   async validate(username: string, password: string): Promise<Admin | undefined> {
     const admin = await this.validateAdmin(username, password);
     if (!admin) {
-      throw new BadRequestException('Invalid email or password.');
+      throw new BadRequestException('Wrong email or password.');
     }
     return admin;
   }

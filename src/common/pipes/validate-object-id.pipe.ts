@@ -6,7 +6,7 @@ export class ValidateObjectId implements PipeTransform<string> {
   transform(value: string): string {
     const isValid = ObjectId.isValid(value);
     if (!isValid) {
-      throw new BadRequestException();
+      throw new BadRequestException('Invalid Object ID');
     }
     return value;
   }

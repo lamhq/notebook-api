@@ -12,7 +12,7 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 export class UniqueValueValidator implements ValidatorConstraintInterface {
   async validate(value: string, validationArguments?: ValidationArguments): Promise<boolean> {
     if (!validationArguments || !validationArguments.constraints) {
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException('Wrong arguments for UniqueValueValidator');
     }
     const values = validationArguments.constraints as string[];
     const isDuplicated = values.filter((item) => item === value).length > 1;
