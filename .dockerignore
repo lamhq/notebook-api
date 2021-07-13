@@ -1,5 +1,8 @@
 .vscode
+coverage
 data
 node_modules
+test
 npm-debug.log
-coverage
+.env
+.env.example

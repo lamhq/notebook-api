@@ -1,14 +1,11 @@
-# Use an official Node runtime as a parent image
-FROM node:12.16.2-alpine
-
-# Set the working directory to /app
+FROM node:12.16.2-alpine AS builder
 WORKDIR /app
-
-# Copy the current directory contents into the container at /app
-ADD . /app/
-
-# Install dependencies & build
+COPY . .
 RUN yarn install --production=false && yarn build
 
-# Launch the container
+FROM node:12.16.2-alpine
+WORKDIR /app
+COPY package.json yarn.lock ./
+COPY --from=builder /app/dist ./dist
+RUN yarn install --production
 CMD ["yarn", "start:prod"]
