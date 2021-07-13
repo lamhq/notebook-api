@@ -12,6 +12,7 @@ import {
   DefaultValuePipe,
   ParseIntPipe,
   ParseArrayPipe,
+  Header,
 } from '@nestjs/common';
 import {
   ApiOperation,
@@ -73,6 +74,7 @@ export class ActivityController {
   }
 
   @Get(':id')
+  @Header('Cache-Control', 'no-store')
   @ApiOperation({ summary: 'Get activity detail' })
   @ApiOkResponse({ type: Activity })
   @ApiNotFoundResponse({ description: 'Activity not found' })
@@ -81,6 +83,7 @@ export class ActivityController {
   }
 
   @Get()
+  @Header('Cache-Control', 'no-store')
   @ApiOperation({ summary: 'Search activities' })
   @ApiQuery({
     required: false,

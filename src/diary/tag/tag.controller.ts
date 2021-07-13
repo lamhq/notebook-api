@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Get } from '@nestjs/common';
+import { Controller, UseGuards, Get, Header } from '@nestjs/common';
 import {
   ApiOperation,
   ApiBearerAuth,
@@ -18,6 +18,7 @@ export class TagController {
   constructor(private readonly tagService: TagService) {}
 
   @Get()
+  @Header('Cache-Control', 'no-store')
   @ApiOperation({ summary: 'Get all tags' })
   @ApiOkResponse({
     description: 'Tag list',

@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, UseGuards, Patch, Put } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Patch, Put, Header } from '@nestjs/common';
 import {
   ApiBody,
   ApiTags,
@@ -31,6 +31,7 @@ export class AdminAccountController {
   ) {}
 
   @Get('me')
+  @Header('Cache-Control', 'no-store')
   @UseGuards(AdminJwtAuthGuard)
   @ApiOperation({ summary: "Get admin account's details" })
   @ApiOkResponse({ type: Admin })
