@@ -1,4 +1,5 @@
+.vscode
+data
 node_modules
 npm-debug.log
 coverage
-.vscode
