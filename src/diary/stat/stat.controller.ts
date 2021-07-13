@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Get, Query, ParseArrayPipe } from '@nestjs/common';
+import { Controller, UseGuards, Get, Query, ParseArrayPipe, Header } from '@nestjs/common';
 import {
   ApiOperation,
   ApiBearerAuth,
@@ -22,6 +22,7 @@ export class StatController {
   constructor(private readonly statService: StatService) {}
 
   @Get('revenue')
+  @Header('Cache-Control', 'no-store')
   @ApiOperation({ summary: 'Get revenue' })
   @ApiQuery({
     required: false,

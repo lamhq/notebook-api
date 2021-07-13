@@ -8,6 +8,7 @@ import {
 } from '@nestjs/swagger';
 import { Request } from 'express';
 import { AdminService } from 'src/admin/admin.service';
+import { TOKEN_COOKIE_NAME } from 'src/common/constants/auth';
 import { AuthService } from '../auth.service';
 import { AdminLocalAuthGuard } from './local-auth.guard';
 import { CreateTokenDto } from '../dto/create-token-dto';
@@ -34,7 +35,10 @@ export class AdminAuthController {
       avatar: admin.avatar,
       roles: [],
     });
-    req.res!.cookie('token', identity.token, { expires: identity.expireAt, httpOnly: true });
+    req.res!.cookie(TOKEN_COOKIE_NAME, identity.token, {
+      expires: identity.expireAt,
+      httpOnly: true,
+    });
     return identity;
   }
 }

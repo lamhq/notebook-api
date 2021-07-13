@@ -4,18 +4,19 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
 import { AdminService } from 'src/admin/admin.service';
+import { TOKEN_COOKIE_NAME } from 'src/common/constants/auth';
 import { JwtPayload } from '../types/jwt-payload';
 
-const extractJwtFromCookie: JwtFromRequestFunction = (req: Request) => {
-  return req.cookies.token;
-};
+function extractJwtFromCookie(name: string): JwtFromRequestFunction {
+  return (req: Request) => req.cookies[name];
+}
 
 @Injectable()
 export class AdminJwtAuthStrategy extends PassportStrategy(Strategy, 'admin-jwt') {
   constructor(configService: ConfigService, private adminService: AdminService) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
-        extractJwtFromCookie,
+        extractJwtFromCookie(TOKEN_COOKIE_NAME),
         ExtractJwt.fromAuthHeaderAsBearerToken(),
       ]),
       ignoreExpiration: false,
