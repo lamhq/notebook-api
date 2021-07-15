@@ -1,7 +1,7 @@
-import { Injectable, ValidationPipe as CoreValidationPipe, ArgumentMetadata } from '@nestjs/common';
+import { Injectable, ValidationPipe, ArgumentMetadata } from '@nestjs/common';
 
 @Injectable()
-export class ValidationPipe extends CoreValidationPipe {
+export class ObjectValidationPipe extends ValidationPipe {
   public async transform(value: unknown, metadata: ArgumentMetadata): Promise<unknown> {
     // skip validation for Date object
     if (metadata.metatype === Date) {
