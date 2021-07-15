@@ -5,7 +5,7 @@ import { useContainer } from 'class-validator';
 import cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
 import { InputErrorException } from './common/types/input-error.exception';
-import { ValidationPipe } from './common/pipes/validation-pipe';
+import { ObjectValidationPipe } from './common/pipes/object-validation-pipe';
 
 function attachSwaggerModule(app: INestApplication) {
   const options = new DocumentBuilder()
@@ -19,7 +19,7 @@ function attachSwaggerModule(app: INestApplication) {
 
 function attachValidationPipe(app: INestApplication) {
   app.useGlobalPipes(
-    new ValidationPipe({
+    new ObjectValidationPipe({
       transform: true,
       skipMissingProperties: false,
       whitelist: false,
