@@ -1,9 +1,11 @@
-name: Deploy to Test environment
+name: Deploy to Test
 on:
-  push:
+  # push:
+  #   branches:
+  #     - master
+  pull_request:
     branches:
       - master
-
 env:
   PROJECT_ID: ${{ secrets.PROJECT_ID }}
   SERVICE: api
@@ -21,22 +23,10 @@ jobs:
           project_id: ${{ env.PROJECT_ID }}
           service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
 
-      - uses: actions/checkout@v2
-      - name: Setup Node.js 14
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14.x'
-          cache: 'yarn'
-
-      - name: Install dependencies
-        run: yarn --frozen-lockfile
-
-      - name: Build Code
-        run: yarn build
-
       - name: Authorize Docker push
         run: gcloud auth configure-docker
 
+      - uses: actions/checkout@v2
       - name: Build and Push Docker Image
         run: |-
           docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }} .
@@ -44,8 +34,17 @@ jobs:
 
       - name: Deploy to Cloud Run
         run: |-
-          gcloud run deploy ${{ env.SERVICE }} \
-            --region ${{ env.REGION }} \
+          gcloud components install beta --quiet
+          gcloud beta run deploy ${{ env.SERVICE }} \
             --image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }} \
+            --region ${{ env.REGION }} \
+            --set-env-vars "NODE_ENV=production" \
+            --set-secrets "DB_URI=DB_URI:latest" \
+            --set-secrets "WEB_URL=WEB_URL:latest" \
+            --set-env-vars "SMTP_HOST=smtp.eu.mailgun.org" \
+            --set-env-vars "SMTP_PORT=587" \
+            --set-secrets "SMTP_USER=SMTP_USER:latest" \
+            --set-secrets "SMTP_PWD=SMTP_PWD:latest" \
+            --allow-unauthenticated \
             --platform "managed" \
             --quiet
