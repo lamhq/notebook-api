@@ -7,7 +7,6 @@ export interface Configuration {
   nodeEnv: string;
   appName: string;
   webUrl: string;
-  esUrl: string;
   auth: {
     // Access token lifetime, expressed in seconds
     // or a string describing a time span:
@@ -34,7 +33,6 @@ export const configFactory = (): Configuration => ({
   nodeEnv: process.env.NODE_ENV || 'development',
   appName: 'Notebook',
   webUrl: process.env.WEB_URL || 'http://localhost:3001',
-  esUrl: process.env.ES_URL || 'http://localhost:9200',
   auth: {
     accessTokenLifetime: '7d',
     secret: '19001560',
