@@ -1,11 +1,8 @@
 name: Deploy to Test
 on:
-  # push:
-  #   branches:
-  #     - master
-  pull_request:
+  push:
     branches:
-      - master
+      - master1
 env:
   PROJECT_ID: ${{ secrets.PROJECT_ID }}
   SERVICE: api
