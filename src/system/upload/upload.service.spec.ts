@@ -6,14 +6,14 @@ import { SignParamameters, UploadService } from './upload.service';
 describe('UploadService', () => {
   let service: UploadService;
   const mockAwsConfig = {
-    accessKeyId: 'AKIAIOSFODNN7EXAMPLE',
-    secretAccessKey: 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY',
+    accessKeyId: 'key',
+    secretAccessKey: 'secret',
     bucket: 'example-bucket',
     region: 'eu-central-1',
     s3Prefix: 'upload/',
     s3Endpoint: 'http://example.com',
   };
-  const expireAt = new Date('2020-09-12T03:58:11.568');
+  const expireAt = new Date('3000-09-12T03:58:11.568');
   const params: SignParamameters = {
     accessKeyId: mockAwsConfig.accessKeyId,
     secretAccessKey: mockAwsConfig.secretAccessKey,
