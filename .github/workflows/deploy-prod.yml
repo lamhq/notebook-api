@@ -1,11 +1,13 @@
 name: Deploy to Production
 
-on: create
+on:
+  push:
+    branches:
+      - master1
 
 jobs:
   deploy_to_production:
     name: Deploy to Production
-    if: ${{ startsWith(github.ref, 'refs/tags/v') }}
     environment: prod
     runs-on: ubuntu-latest
     steps:

@@ -21,7 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "preversion": "git-branch-is -r \"^(feature|fix|hotfix)/[a-z\\-\\d\\.]+$\" && echo Preversion checks passed. Your branch name is correct format.",
     "seed": "ts-node -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js seed --configName ormconfig.cli.js",
-    "release": "standard-version --no-verify && git push --follow-tags --no-verify",
+    "release": "standard-version --no-verify",
     "deploy": "./infra/deploy.sh"
   },
   "husky": {
