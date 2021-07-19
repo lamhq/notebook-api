@@ -1,29 +1,62 @@
 name: Deploy to Production
-
 on:
-  push:
+  # push:
+  pull_request:
     branches:
-      - master1
+      - master
+# env:
+#   PROJECT_ID: ${{ secrets.PROJECT_ID }}
+#   SERVICE: api
+#   REGION: asia-southeast1
 
 jobs:
   deploy_to_production:
     name: Deploy to Production
-    environment: prod
+    # environment: prod
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Setup Node.js 14
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14.x'
-          cache: 'yarn'
-      - name: Install dependencies
-        run: yarn --frozen-lockfile
-      - name: Build
-        run: yarn build
-      - uses: FirebaseExtended/action-hosting-deploy@v0
-        with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.SERVICE_ACCOUNT_KEY }}'
-          channelId: live
-          projectId: '${{ secrets.PROJECT_ID }}'
+      - name: Extract version in package.json
+        id: npm_package_version
+        uses: Saionaro/extract-package-version@v1.0.6
+
+      # From now you can access the version
+      - name: Print version
+        run: echo ${{ steps.npm_package_version.outputs.version }}
+      # - name: Setup Cloud SDK
+      #   uses: google-github-actions/setup-gcloud@v0.2.0
+      #   with:
+      #     project_id: ${{ env.PROJECT_ID }}
+      #     service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+
+      # - name: Authorize Docker push
+      #   run: gcloud auth configure-docker
+
+      # - name: Checkout code
+      #   uses: actions/checkout@v2
+
+      # - name: Build and Push Docker Image
+      #   run: |-
+      #     docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${GITHUB_SHA::7} .
+      #     docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${GITHUB_SHA::7}
+
+      # - name: Deploy to Cloud Run
+      #   run: |-
+      #     gcloud components install beta --quiet
+      #     gcloud beta run deploy ${{ env.SERVICE }} \
+      #       --image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${GITHUB_SHA::7} \
+      #       --region ${{ env.REGION }} \
+      #       --set-env-vars "NODE_ENV=production" \
+      #       --set-secrets "DB_URI=DB_URI:latest" \
+      #       --set-secrets "WEB_URL=WEB_URL:latest" \
+      #       --set-env-vars "SMTP_HOST=smtp.eu.mailgun.org" \
+      #       --set-env-vars "SMTP_PORT=587" \
+      #       --set-secrets "SMTP_USER=SMTP_USER:latest" \
+      #       --set-secrets "SMTP_PWD=SMTP_PWD:latest" \
+      #       --allow-unauthenticated \
+      #       --platform "managed" \
+      #       --quiet
+
+      # - name: Create deploy tag
+      #   run: |-
+      #     git tag -f test
+      #     git push -f --tags
