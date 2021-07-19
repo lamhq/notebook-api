@@ -13,35 +13,40 @@ jobs:
     name: Deploy to Test
     environment: test
     runs-on: ubuntu-latest
+    env:
+      DOCKER_IMG: gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${GITHUB_SHA::7}
     steps:
-      - name: Setup Cloud SDK
-        uses: google-github-actions/setup-gcloud@v0.2.0
-        with:
-          project_id: ${{ env.PROJECT_ID }}
-          service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
-
       - name: Authorize Docker push
-        run: gcloud auth configure-docker
+        run: echo $DOCKER_IMG
 
-      - uses: actions/checkout@v2
-      - name: Build and Push Docker Image
-        run: |-
-          docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }} .
-          docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }}
+      # - name: Setup Cloud SDK
+      #   uses: google-github-actions/setup-gcloud@v0.2.0
+      #   with:
+      #     project_id: ${{ env.PROJECT_ID }}
+      #     service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
 
-      - name: Deploy to Cloud Run
-        run: |-
-          gcloud components install beta --quiet
-          gcloud beta run deploy ${{ env.SERVICE }} \
-            --image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{  github.sha }} \
-            --region ${{ env.REGION }} \
-            --set-env-vars "NODE_ENV=production" \
-            --set-secrets "DB_URI=DB_URI:latest" \
-            --set-secrets "WEB_URL=WEB_URL:latest" \
-            --set-env-vars "SMTP_HOST=smtp.eu.mailgun.org" \
-            --set-env-vars "SMTP_PORT=587" \
-            --set-secrets "SMTP_USER=SMTP_USER:latest" \
-            --set-secrets "SMTP_PWD=SMTP_PWD:latest" \
-            --allow-unauthenticated \
-            --platform "managed" \
-            --quiet
+      # - name: Authorize Docker push
+      #   run: gcloud auth configure-docker
+
+      # - uses: actions/checkout@v2
+      # - name: Build and Push Docker Image
+      #   run: |-
+      #     docker build -t $DOCKER_IMG .
+      #     docker push $DOCKER_IMG
+
+      # - name: Deploy to Cloud Run
+      #   run: |-
+      #     gcloud components install beta --quiet
+      #     gcloud beta run deploy ${{ env.SERVICE }} \
+      #       --image $DOCKER_IMG \
+      #       --region ${{ env.REGION }} \
+      #       --set-env-vars "NODE_ENV=production" \
+      #       --set-secrets "DB_URI=DB_URI:latest" \
+      #       --set-secrets "WEB_URL=WEB_URL:latest" \
+      #       --set-env-vars "SMTP_HOST=smtp.eu.mailgun.org" \
+      #       --set-env-vars "SMTP_PORT=587" \
+      #       --set-secrets "SMTP_USER=SMTP_USER:latest" \
+      #       --set-secrets "SMTP_PWD=SMTP_PWD:latest" \
+      #       --allow-unauthenticated \
+      #       --platform "managed" \
+      #       --quiet
