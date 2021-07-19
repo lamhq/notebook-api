@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+
 env:
   PROJECT_ID: ${{ secrets.PROJECT_ID }}
   SERVICE: api
