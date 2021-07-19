@@ -1,0 +1,27 @@
+name: Create new release
+
+on: workflow_dispatch
+
+jobs:
+  release_new_version:
+    name: Create new release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup git for committing changes
+        uses: fregante/setup-git-user@v1
+
+      - name: Update version
+        run: npx standard-version --skip.commit --skip.tag
+
+      - name: Get current version
+        id: npm_package_version
+        uses: Saionaro/extract-package-version@v1.0.6
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v3.10.0
+        with:
+          commit-message: 'chore: update version to ${{ steps.npm_package_version.outputs.version }}'
+          title: 'Create version ${{ steps.npm_package_version.outputs.version }}'
+          body: 'Just update version to ${{ steps.npm_package_version.outputs.version }} and update change log, no deployments are takeplaced.'

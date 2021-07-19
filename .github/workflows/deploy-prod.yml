@@ -56,5 +56,6 @@ jobs:
 
       - name: Create deploy tag
         run: |-
+          git tag -f v${{ steps.npm_package_version.outputs.version }}
           git tag -f prod
           git push -f --tags
