@@ -14,11 +14,11 @@ jobs:
     name: Deploy to Test
     environment: test
     runs-on: ubuntu-latest
-    env:
-      DOCKER_IMG: gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${GITHUB_SHA::7}
     steps:
-      - name: Authorize Docker push
-        run: echo $DOCKER_IMG
+      - name: Debug
+        run: |-
+          DOCKER_IMG=gcr.io/${PROJECT_ID}/${SERVICE}:${GITHUB_SHA::7}
+          echo $DOCKER_IMG
 
       # - name: Setup Cloud SDK
       #   uses: google-github-actions/setup-gcloud@v0.2.0
