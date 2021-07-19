@@ -19,14 +19,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.commit }}
 
-      - name: Extract version in package.json
-        id: npm_package_version
-        uses: Saionaro/extract-package-version@v1.0.6
-
-      # From now you can access the version
-      - name: Print version
-        run: echo ${{ steps.npm_package_version.outputs.version }}
+      - name: Print current commit
+        run: git status
       # - name: Setup Cloud SDK
       #   uses: google-github-actions/setup-gcloud@v0.2.0
       #   with:
