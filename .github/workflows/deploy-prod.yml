@@ -1,12 +1,9 @@
 name: Deploy to Production
 
 on:
-  workflow_dispatch:
-    inputs:
-      commit:
-        description: 'Commit hash'
-        required: true
-        default: 'HEAD'
+  push:
+    branches:
+      - master
 
 env:
   PROJECT_ID: ${{ secrets.PROJECT_ID }}
@@ -30,11 +27,6 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-      - name: Checkout to specified commit
-        run: git checkout ${{ github.event.inputs.commit }}
 
       - name: Get current version
         id: npm_package_version
@@ -64,5 +56,5 @@ jobs:
 
       - name: Create deploy tag
         run: |-
-          git tag -f test
+          git tag -f prod
           git push -f --tags
