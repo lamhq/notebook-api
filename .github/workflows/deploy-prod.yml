@@ -1,4 +1,5 @@
 name: Deploy to Production
+
 on:
   workflow_dispatch:
     inputs:
@@ -6,59 +7,62 @@ on:
         description: 'Commit hash'
         required: true
         default: 'HEAD'
-# env:
-#   PROJECT_ID: ${{ secrets.PROJECT_ID }}
-#   SERVICE: api
-#   REGION: asia-southeast1
+
+env:
+  PROJECT_ID: ${{ secrets.PROJECT_ID }}
+  SERVICE: api
+  REGION: asia-southeast1
 
 jobs:
   deploy_to_production:
     name: Deploy to Production
-    # environment: prod
+    environment: prod
     runs-on: ubuntu-latest
     steps:
+      - name: Setup Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0.2.0
+        with:
+          project_id: ${{ env.PROJECT_ID }}
+          service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+
+      - name: Authorize Docker push
+        run: gcloud auth configure-docker
+
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          ref: ${{ github.event.inputs.commit }}
+          fetch-depth: 0
 
-      - name: Print current commit
-        run: git status
-      # - name: Setup Cloud SDK
-      #   uses: google-github-actions/setup-gcloud@v0.2.0
-      #   with:
-      #     project_id: ${{ env.PROJECT_ID }}
-      #     service_account_key: ${{ secrets.SERVICE_ACCOUNT_KEY }}
+      - name: Checkout to specified commit
+        run: git checkout ${{ github.event.inputs.commit }}
 
-      # - name: Authorize Docker push
-      #   run: gcloud auth configure-docker
+      - name: Get current version
+        id: npm_package_version
+        uses: Saionaro/extract-package-version@v1.0.6
 
-      # - name: Checkout code
-      #   uses: actions/checkout@v2
+      - name: Build and Push Docker Image
+        run: |-
+          docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ steps.npm_package_version.outputs.version }} .
+          docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ steps.npm_package_version.outputs.version }}
 
-      # - name: Build and Push Docker Image
-      #   run: |-
-      #     docker build -t gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${GITHUB_SHA::7} .
-      #     docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${GITHUB_SHA::7}
+      - name: Deploy to Cloud Run
+        run: |-
+          gcloud components install beta --quiet
+          gcloud beta run deploy ${{ env.SERVICE }} \
+            --image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${{ steps.npm_package_version.outputs.version }} \
+            --region ${{ env.REGION }} \
+            --set-env-vars "NODE_ENV=production" \
+            --set-secrets "DB_URI=DB_URI:latest" \
+            --set-secrets "WEB_URL=WEB_URL:latest" \
+            --set-env-vars "SMTP_HOST=smtp.eu.mailgun.org" \
+            --set-env-vars "SMTP_PORT=587" \
+            --set-secrets "SMTP_USER=SMTP_USER:latest" \
+            --set-secrets "SMTP_PWD=SMTP_PWD:latest" \
+            --allow-unauthenticated \
+            --platform "managed" \
+            --quiet
 
-      # - name: Deploy to Cloud Run
-      #   run: |-
-      #     gcloud components install beta --quiet
-      #     gcloud beta run deploy ${{ env.SERVICE }} \
-      #       --image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}:${GITHUB_SHA::7} \
-      #       --region ${{ env.REGION }} \
-      #       --set-env-vars "NODE_ENV=production" \
-      #       --set-secrets "DB_URI=DB_URI:latest" \
-      #       --set-secrets "WEB_URL=WEB_URL:latest" \
-      #       --set-env-vars "SMTP_HOST=smtp.eu.mailgun.org" \
-      #       --set-env-vars "SMTP_PORT=587" \
-      #       --set-secrets "SMTP_USER=SMTP_USER:latest" \
-      #       --set-secrets "SMTP_PWD=SMTP_PWD:latest" \
-      #       --allow-unauthenticated \
-      #       --platform "managed" \
-      #       --quiet
-
-      # - name: Create deploy tag
-      #   run: |-
-      #     git tag -f test
-      #     git push -f --tags
+      - name: Create deploy tag
+        run: |-
+          git tag -f test
+          git push -f --tags
