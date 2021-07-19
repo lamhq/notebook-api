@@ -1,9 +1,11 @@
 name: Deploy to Production
 on:
-  # push:
-  pull_request:
-    branches:
-      - master
+  workflow_dispatch:
+    inputs:
+      commit:
+        description: 'Commit hash'
+        required: true
+        default: 'HEAD'
 # env:
 #   PROJECT_ID: ${{ secrets.PROJECT_ID }}
 #   SERVICE: api
