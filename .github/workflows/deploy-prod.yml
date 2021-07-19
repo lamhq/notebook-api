@@ -15,6 +15,9 @@ jobs:
     # environment: prod
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Extract version in package.json
         id: npm_package_version
         uses: Saionaro/extract-package-version@v1.0.6
