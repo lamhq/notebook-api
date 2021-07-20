@@ -38,7 +38,7 @@ export class StatService {
     pipes.push({
       $group: { _id: 'all', income: { $sum: '$income' }, outcome: { $sum: '$outcome' } },
     });
-    const result = await this.activityRepo.aggregate<Revenue>(pipes).toArray();
-    return result[0];
+    const aggData = await this.activityRepo.aggregate<Revenue>(pipes).toArray();
+    return aggData[0] || { income: 0, outcome: 0 };
   }
 }
