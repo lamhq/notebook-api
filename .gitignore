@@ -28,9 +28,3 @@ lerna-debug.log*
 
 # environment file for dotenv lib
 .env
-
-# temporarily generated files
-infra/common.yml
-infra/db.yml
-infra/es.yml
-infra/api.yml

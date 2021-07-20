@@ -1,15 +1,16 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
+    "module": "commonjs",
     "declaration": true,
+    "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "incremental": true,
-    "module": "commonjs",
-    "outDir": "./dist",
-    "removeComments": true,
-    "sourceMap": true,
     "target": "es2017",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+
     /* additional config */
     "strictNullChecks": true,
     "noImplicitAny": true,
@@ -17,10 +18,12 @@
     "esModuleInterop": true,
     "noUnusedLocals": false,
   },
+  "exclude": ["node_modules", "dist"],
+
+  /* additional config */
   "include": [
     "**.js",
     "src/",
     "test/",
-  ],
-  "exclude": ["node_modules", "dist"]
+  ]
 }
