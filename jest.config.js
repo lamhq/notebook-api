@@ -8,6 +8,9 @@ module.exports = {
   coverageDirectory: 'coverage',
   testEnvironment: 'node',
   preset: 'ts-jest',
+  moduleNameMapper: {
+    '^src/(.+)': '<rootDir>/src/$1',
+  },
   coverageThreshold: {
     global: {
       branches: 50,
@@ -15,9 +18,6 @@ module.exports = {
       lines: 80,
       statements: 80,
     },
-  },
-  moduleNameMapper: {
-    '^src/(.+)': '<rootDir>/src/$1',
   },
   collectCoverageFrom: [
     'src/**/*.ts',

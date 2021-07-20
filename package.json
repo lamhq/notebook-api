@@ -20,9 +20,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "preversion": "git-branch-is -r \"^(feature|fix|hotfix)/[a-z\\-\\d\\.]+$\" && echo Preversion checks passed. Your branch name is correct format.",
-    "seed": "ts-node -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js seed --configName ormconfig.cli.js",
-    "release": "standard-version --no-verify",
-    "deploy": "./infra/deploy.sh"
+    "seed": "ts-node -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js seed --configName ormconfig.cli.js"
   },
   "husky": {
     "hooks": {
@@ -106,7 +104,6 @@
     "lint-staged": "^10.2.11",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",
-    "standard-version": "^9.0.0",
     "supertest": "^4.0.2",
     "ts-jest": "25.2.1",
     "ts-loader": "^6.2.1",
