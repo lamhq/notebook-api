@@ -1,0 +1,27 @@
+{
+  "root": true,
+  "plugins": ["jest"],
+  "extends":[
+    "airbnb-typescript/base",
+    "plugin:jest/recommended",
+    "plugin:jest/style",
+    "plugin:prettier/recommended"
+  ],
+  "parserOptions":{
+    "project":"./tsconfig.json"
+  },
+  "ignorePatterns":[
+    "/dist",
+    "/coverage"
+  ],
+  "rules":{
+    "class-methods-use-this": "off",
+    "import/prefer-default-export":"off",
+    "import/no-extraneous-dependencies":[
+      "error",
+      {
+        "devDependencies": true
+      }
+    ]
+  }
+}

@@ -1,4 +1,3 @@
-require('dotenv').config();
 const { configFactory } = require('./src/config');
 
 const baseConfig = configFactory();

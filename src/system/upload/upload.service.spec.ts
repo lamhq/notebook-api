@@ -24,7 +24,6 @@ describe('UploadService', () => {
     date: expireAt.substr(0, 10).replace(/-/g, ''),
     keyPrefix: mockAwsConfig.s3Prefix,
   };
-  console.log(params);
   const configService = mock<ConfigService>();
   configService.get.mockReturnValue(mockAwsConfig);
 
