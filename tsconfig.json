@@ -18,12 +18,5 @@
     "esModuleInterop": true,
     "noUnusedLocals": false,
   },
-  "exclude": ["node_modules", "dist"],
-
-  /* additional config */
-  "include": [
-    "**.js",
-    "src/",
-    "test/",
-  ]
+  "exclude": ["node_modules", "dist"]
 }
