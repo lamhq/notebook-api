@@ -7,8 +7,8 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Request } from 'express';
-import { AdminService } from 'src/admin/admin.service';
-import { TOKEN_COOKIE_NAME } from 'src/common/constants/auth';
+import { AdminService } from 'admin/admin.service';
+import { TOKEN_COOKIE_NAME } from 'common/constants/auth';
 import { AuthService } from '../auth.service';
 import { AdminLocalAuthGuard } from './local-auth.guard';
 import { CreateTokenDto } from '../dto/create-token-dto';

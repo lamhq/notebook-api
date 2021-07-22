@@ -2,7 +2,7 @@ import { Expose, Transform } from 'class-transformer';
 import { Entity, Column, ObjectIdColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { ObjectId } from 'mongodb';
-import { PaginationQuery } from 'src/common/types/pagination-query';
+import { PaginationQuery } from 'common/types/pagination-query';
 
 @Entity({ name: 'activities' })
 export class Activity {

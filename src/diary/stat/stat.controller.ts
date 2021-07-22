@@ -7,8 +7,8 @@ import {
   ApiTags,
   ApiQuery,
 } from '@nestjs/swagger';
-import { AdminJwtAuthGuard } from 'src/auth/admin/jwt-auth.guard';
-import { ParseDatePipe } from 'src/common/pipes/parse-date.pipe';
+import { AdminJwtAuthGuard } from 'auth/admin/jwt-auth.guard';
+import { ParseDatePipe } from 'common/pipes/parse-date.pipe';
 import { ActivityQuery } from '../activity/activity.entity';
 import { Revenue } from './revenue.entity';
 import { StatService } from './stat.service';

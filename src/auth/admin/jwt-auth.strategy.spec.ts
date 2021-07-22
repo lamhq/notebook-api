@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigService } from '@nestjs/config';
 import { mock } from 'jest-mock-extended';
-import { AdminService } from 'src/admin/admin.service';
-import { Admin } from 'src/admin/admin.entity';
+import { AdminService } from 'admin/admin.service';
+import { Admin } from 'admin/admin.entity';
 import { UnauthorizedException } from '@nestjs/common';
 import { AdminJwtAuthStrategy } from './jwt-auth.strategy';
 import { JwtPayload } from '../types/jwt-payload';

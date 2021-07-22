@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import hmacSHA256 from 'crypto-js/hmac-sha256';
 import cryptoJs from 'crypto-js';
-import { Configuration } from 'src/config';
+import { Configuration } from 'config';
 import { UploadToken } from './upload-params';
 
 export interface SignParamameters {

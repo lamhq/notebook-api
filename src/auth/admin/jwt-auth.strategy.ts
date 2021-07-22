@@ -3,8 +3,8 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Request } from 'express';
-import { AdminService } from 'src/admin/admin.service';
-import { TOKEN_COOKIE_NAME } from 'src/common/constants/auth';
+import { AdminService } from 'admin/admin.service';
+import { TOKEN_COOKIE_NAME } from 'common/constants/auth';
 import { JwtPayload } from '../types/jwt-payload';
 
 function extractJwtFromCookie(name: string): JwtFromRequestFunction {

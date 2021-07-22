@@ -1,10 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { mock } from 'jest-mock-extended';
 import { BadRequestException } from '@nestjs/common';
-import { CommonService } from 'src/common/common.service';
+import { CommonService } from 'common/common.service';
 import { ObjectId } from 'mongodb';
-import { AdminService } from 'src/admin/admin.service';
-import { Admin } from 'src/admin/admin.entity';
+import { AdminService } from 'admin/admin.service';
+import { Admin } from 'admin/admin.entity';
 import { AdminLocalAuthStrategy } from './local-auth.strategy';
 import { CreateTokenDto } from '../dto/create-token-dto';
 

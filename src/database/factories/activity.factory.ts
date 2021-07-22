@@ -1,5 +1,5 @@
 import { define } from 'typeorm-seeding';
-import { Activity } from 'src/diary/activity/activity.entity';
+import { Activity } from 'diary/activity/activity.entity';
 
 define(Activity, (faker) => {
   const activity = new Activity({
