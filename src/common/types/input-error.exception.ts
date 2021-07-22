@@ -17,7 +17,9 @@ export function getErrorDetails(errors: ValidationError[]): ErrorDetails {
     }
     return {
       ...previousValue,
-      [currentValue.property]: currentValue.children.map((item) => getErrorDetails(item.children)),
+      [currentValue.property]: currentValue.children
+        ? currentValue.children.map((item) => getErrorDetails(item.children!))
+        : undefined,
     };
   }, {});
 }

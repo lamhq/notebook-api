@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import bcrypt from 'bcrypt';
+import { hash, compare } from 'bcrypt';
 import { getMetadataStorage } from 'class-validator';
 import { ValidationMetadata } from 'class-validator/types/metadata/ValidationMetadata';
 import { MongoRepository } from 'typeorm';
@@ -15,13 +15,13 @@ export class CommonService {
     private jwtService: JwtService,
   ) {}
 
-  hashPassword(value: string | number): Promise<string> {
+  hashPassword(value: string): Promise<string> {
     const saltRounds = 9;
-    return bcrypt.hash(value, saltRounds);
+    return hash(value, saltRounds);
   }
 
   comparePassword(value: string, hashed: string): Promise<boolean> {
-    return bcrypt.compare(value, hashed);
+    return compare(value, hashed);
   }
 
   /**

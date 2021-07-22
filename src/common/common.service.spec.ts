@@ -45,17 +45,16 @@ describe('CommonService', () => {
   describe('hashPassword', () => {
     it('should return hashed value', () => {
       const mHash = jest.spyOn(bcrypt, 'hash');
-      mHash.mockResolvedValue('hashed');
+      mHash.mockImplementationOnce(() => Promise.resolve('hashed'));
       expect(service.hashPassword('1234')).toBeDefined();
       expect(mHash).toHaveBeenCalledWith('1234', 9);
-      mHash.mockRestore();
     });
   });
 
   describe('comparePassword', () => {
     it('should compare password', async () => {
       const mCompare = jest.spyOn(bcrypt, 'compare');
-      mCompare.mockResolvedValue(true);
+      mCompare.mockImplementationOnce(() => Promise.resolve(true));
       await expect(service.comparePassword('1234', 'hashed')).resolves.toBe(true);
       expect(mCompare).toHaveBeenCalledWith('1234', 'hashed');
       mCompare.mockRestore();

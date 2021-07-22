@@ -6,7 +6,7 @@ import { ObjectId } from 'mongodb';
 @Entity({ name: 'settings' })
 export class Setting {
   @ObjectIdColumn()
-  @Transform((id) => id.toString())
+  @Transform((data) => data.value.toString())
   @Exclude()
   id: ObjectId;
 

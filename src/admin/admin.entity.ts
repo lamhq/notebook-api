@@ -13,7 +13,7 @@ import { ObjectId } from 'mongodb';
 @Entity({ name: 'administrators' })
 export class Admin {
   @ObjectIdColumn()
-  @Transform((id) => id.toString())
+  @Transform((data) => data.value.toString())
   @Expose()
   id: ObjectId;
 

@@ -69,10 +69,7 @@ export const configFactory = (): Configuration => ({
     },
     template: {
       adapter: new EjsAdapter(),
-      dir: `${__dirname}/assets/email-templates`.replace(
-        'dist',
-        process.env.NODE_ENV === 'production' ? 'dist' : 'src',
-      ),
+      dir: `${__dirname}/assets/email-templates`,
       options: {
         strict: false,
       },

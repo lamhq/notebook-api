@@ -173,7 +173,7 @@ describe('AdminService', () => {
       expect(mailerService.sendMail).toHaveBeenCalledWith({
         to: `${admin.displayName} <${admin.email}>`,
         subject: 'Notebook - Password reset request',
-        template: 'reset-password',
+        template: './reset-password',
         context: {
           appName: 'Notebook',
           link: 'http://notebook.com/reset-pwd?token=token',
