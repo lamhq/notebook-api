@@ -7,7 +7,7 @@ import { PaginationQuery } from 'src/common/types/pagination-query';
 @Entity({ name: 'activities' })
 export class Activity {
   @ObjectIdColumn()
-  @Transform((id) => id.toString())
+  @Transform((data) => data.value.toString())
   @Expose()
   id: ObjectId;
 

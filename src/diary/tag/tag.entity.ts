@@ -6,7 +6,7 @@ import { ObjectId } from 'mongodb';
 @Entity({ name: 'tags' })
 export class Tag {
   @ObjectIdColumn()
-  @Transform((id) => id.toString())
+  @Transform((data) => data.value.toString())
   @Expose()
   id: ObjectId;
 

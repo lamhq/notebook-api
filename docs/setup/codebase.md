@@ -76,47 +76,56 @@ yarn add class-validator class-transformer
 ```
 8. [Enable Cookies](https://docs.nestjs.com/techniques/cookies)
 9. Install package for [sending email](https://github.com/nest-modules/mailer)
-10. Configure ESLint for:
-    - TypeScript
-    - AirBnb
-    - Jest
-    - Prettier
-10. Configure Jest:
 
-```js
-// jest.config.js
-module.exports = {
-  moduleFileExtensions: ['js', 'json', 'ts'],
-  rootDir: '.',
-  testRegex: '.spec.ts$',
-  transform: {
-    '^.+\\.(t|j)s$': 'ts-jest',
-  },
-  coverageDirectory: 'coverage',
-  testEnvironment: 'node',
 
-  // extra configurations
-  preset: 'ts-jest',
-  moduleNameMapper: {
-    '^src/(.+)': '<rootDir>/src/$1',
-  },
-  coverageThreshold: {
-    global: {
-      branches: 50,
-      functions: 50,
-      lines: 80,
-      statements: 80,
-    },
-  },
-  collectCoverageFrom: [
-    'src/**/*.ts',
-    '!src/**/*.{module,entity,dto}.ts',
-    '!src/{main,config}.ts',
-    '!src/database/**/*.ts',
-    '!src/common/constants/*.ts',
+### Jest
+
+```json
+// jest.config.json
+{
+  "moduleFileExtensions":[
+    "js",
+    "json",
+    "ts"
   ],
-};
+  "rootDir":".",
+  "testRegex":".spec.ts$",
+  "transform":{
+    "^.+\\.(t|j)s$":"ts-jest"
+  },
+  "coverageDirectory":"coverage",
+  "testEnvironment":"node",
+  "preset":"ts-jest",
+  "moduleNameMapper":{
+    "^src/(.+)":"<rootDir>/src/$1"
+  },
+  "coverageThreshold":{
+    "global":{
+      "branches":50,
+      "functions":50,
+      "lines":80,
+      "statements":80
+    }
+  },
+  "collectCoverageFrom":[
+    "src/**/*.ts",
+    "!src/**/*.{module,entity,dto}.ts",
+    "!src/{main,config}.ts",
+    "!src/database/**/*.ts",
+    "!src/common/constants/*.ts"
+  ]
+}
 ```
+
+
+### ESLint
+
+Configure ESLint for:
+
+- [TypeScript + AirBnb](https://www.npmjs.com/package/eslint-config-airbnb-typescript)
+- [Jest](https://www.npmjs.com/package/eslint-plugin-jest)
+- [Prettier](https://github.com/prettier/eslint-plugin-prettier#recommended-configuration)
+
 
 ## React Web app (from scratch)
 

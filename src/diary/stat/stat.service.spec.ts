@@ -1,8 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { mock } from 'jest-mock-extended';
-import { MongoRepository } from 'typeorm';
+import { AggregationCursor, MongoRepository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { AggregationCursor } from 'mongodb';
 import { StatService } from './stat.service';
 import { Activity, ActivityQuery } from '../activity/activity.entity';
 import { Revenue } from './revenue.entity';

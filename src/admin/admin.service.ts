@@ -85,7 +85,7 @@ export class AdminService {
     const message: ISendMailOptions = {
       to: `${user.displayName} <${user.email}>`,
       subject: `${appName} - Password reset request`,
-      template: 'reset-password',
+      template: './reset-password',
       context: {
         appName,
         link,
