@@ -61,7 +61,7 @@ describe('UploadService', () => {
   describe('getUploadToken', () => {
     it('should match snapshot', () => {
       const expAt = new Date(expireAt);
-      const spy = jest.spyOn(global, 'Date').mockReturnValue((expAt as unknown) as string);
+      const spy = jest.spyOn(global, 'Date').mockReturnValue(expAt as unknown as string);
       expect(service.getUploadToken()).toMatchSnapshot();
       spy.mockRestore();
     });
