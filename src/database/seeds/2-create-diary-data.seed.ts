@@ -1,6 +1,6 @@
 import { Factory, Seeder } from 'typeorm-seeding';
-import { Activity } from 'src/diary/activity/activity.entity';
-import { Tag } from 'src/diary/tag/tag.entity';
+import { Activity } from 'diary/activity/activity.entity';
+import { Tag } from 'diary/tag/tag.entity';
 import { Connection } from 'typeorm';
 
 export default class CreateDiaryData implements Seeder {

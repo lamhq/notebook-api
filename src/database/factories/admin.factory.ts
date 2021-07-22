@@ -1,5 +1,5 @@
 import { define } from 'typeorm-seeding';
-import { Admin } from 'src/admin/admin.entity';
+import { Admin } from 'admin/admin.entity';
 
 define(Admin, () => {
   const user = new Admin({

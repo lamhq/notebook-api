@@ -9,10 +9,10 @@ import {
   ApiUnauthorizedResponse,
   ApiNotFoundResponse,
 } from '@nestjs/swagger';
-import { ErrorResponse } from 'src/common/types/error-response';
-import { AuthService } from 'src/auth/auth.service';
-import { UserId } from 'src/auth/user-id.decorator';
-import { AdminJwtAuthGuard } from 'src/auth/admin/jwt-auth.guard';
+import { ErrorResponse } from 'common/types/error-response';
+import { AuthService } from 'auth/auth.service';
+import { UserId } from 'auth/user-id.decorator';
+import { AdminJwtAuthGuard } from 'auth/admin/jwt-auth.guard';
 import { Admin } from '../admin.entity';
 import { AdminService } from '../admin.service';
 import { ChangePasswordDto } from './dto/change-password.dto';

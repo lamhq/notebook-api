@@ -26,10 +26,10 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Request } from 'express';
-import { AdminJwtAuthGuard } from 'src/auth/admin/jwt-auth.guard';
-import { RES_HEADER_TOTAL_COUNT } from 'src/common/constants/pagination';
-import { ParseDatePipe } from 'src/common/pipes/parse-date.pipe';
-import { ErrorResponse } from 'src/common/types/error-response';
+import { AdminJwtAuthGuard } from 'auth/admin/jwt-auth.guard';
+import { RES_HEADER_TOTAL_COUNT } from 'common/constants/pagination';
+import { ParseDatePipe } from 'common/pipes/parse-date.pipe';
+import { ErrorResponse } from 'common/types/error-response';
 import { Activity, ActivityQuery } from './activity.entity';
 import { ActivityService } from './activity.service';
 import { AddActivityDto } from './dto/add-activity.dto';

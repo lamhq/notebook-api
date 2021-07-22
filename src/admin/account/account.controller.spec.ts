@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { mock } from 'jest-mock-extended';
 import { Request, Response } from 'express';
-import { AuthService } from 'src/auth/auth.service';
+import { AuthService } from 'auth/auth.service';
 import { ObjectId } from 'mongodb';
 import { AdminAccountController } from './account.controller';
 import { AdminService } from '../admin.service';

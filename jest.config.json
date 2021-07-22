@@ -4,7 +4,7 @@
     "json",
     "ts"
   ],
-  "rootDir":".",
+  "rootDir":"./src",
   "testRegex":".spec.ts$",
   "transform":{
     "^.+\\.(t|j)s$":"ts-jest"
@@ -12,9 +12,7 @@
   "coverageDirectory":"coverage",
   "testEnvironment":"node",
   "preset":"ts-jest",
-  "moduleNameMapper":{
-    "^src/(.+)":"<rootDir>/src/$1"
-  },
+  "moduleDirectories": ["node_modules", "src"],
   "coverageThreshold":{
     "global":{
       "branches":50,

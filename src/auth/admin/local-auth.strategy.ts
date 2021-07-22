@@ -1,9 +1,9 @@
 import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { CommonService } from 'src/common/common.service';
-import { AdminService } from 'src/admin/admin.service';
-import { Admin } from 'src/admin/admin.entity';
+import { CommonService } from 'common/common.service';
+import { AdminService } from 'admin/admin.service';
+import { Admin } from 'admin/admin.entity';
 
 @Injectable()
 // With @nestjs/passport, you configure a Passport strategy by extending the PassportStrategy class.

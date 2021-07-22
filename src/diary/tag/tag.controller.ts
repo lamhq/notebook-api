@@ -6,7 +6,7 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { AdminJwtAuthGuard } from 'src/auth/admin/jwt-auth.guard';
+import { AdminJwtAuthGuard } from 'auth/admin/jwt-auth.guard';
 import { TagService } from './tag.service';
 
 @UseGuards(AdminJwtAuthGuard)

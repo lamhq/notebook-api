@@ -1,8 +1,8 @@
 import { Factory, Seeder } from 'typeorm-seeding';
 import { Connection } from 'typeorm';
-import { Activity } from 'src/diary/activity/activity.entity';
-import { Admin } from 'src/admin/admin.entity';
-import { Tag } from 'src/diary/tag/tag.entity';
+import { Activity } from 'diary/activity/activity.entity';
+import { Admin } from 'admin/admin.entity';
+import { Tag } from 'diary/tag/tag.entity';
 
 export default class EmptyDatabase implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<void> {

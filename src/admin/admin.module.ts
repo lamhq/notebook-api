@@ -1,7 +1,7 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CommonModule } from 'src/common/common.module';
-import { AuthModule } from 'src/auth/auth.module';
+import { CommonModule } from 'common/common.module';
+import { AuthModule } from 'auth/auth.module';
 import { AdminService } from './admin.service';
 import { Admin } from './admin.entity';
 import { AdminAccountController } from './account/account.controller';
