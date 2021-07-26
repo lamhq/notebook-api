@@ -84,7 +84,7 @@ export class AdminService {
     const link = `${webUrl}/reset-pwd?token=${q}`;
     const message: ISendMailOptions = {
       to: `${user.displayName} <${user.email}>`,
-      subject: `${appName} - Password reset request`,
+      subject: 'Password reset request',
       template: './reset-password',
       context: {
         appName,
