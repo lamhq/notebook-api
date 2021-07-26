@@ -42,10 +42,11 @@ jobs:
             --set-env-vars "NODE_ENV=production" \
             --set-secrets "DB_URI=DB_URI:latest" \
             --set-secrets "WEB_URL=WEB_URL:latest" \
-            --set-env-vars "SMTP_HOST=smtp.eu.mailgun.org" \
+            --set-env-vars "SMTP_HOST=smtp.mailgun.org" \
             --set-env-vars "SMTP_PORT=587" \
             --set-secrets "SMTP_USER=SMTP_USER:latest" \
             --set-secrets "SMTP_PWD=SMTP_PWD:latest" \
+            --set-secrets "MAIL_DOMAIN=MAIL_DOMAIN:latest" \
             --allow-unauthenticated \
             --platform "managed" \
             --quiet
@@ -90,10 +91,11 @@ jobs:
             --set-env-vars "NODE_ENV=production" \
             --set-secrets "DB_URI=DB_URI:latest" \
             --set-secrets "WEB_URL=WEB_URL:latest" \
-            --set-env-vars "SMTP_HOST=smtp.eu.mailgun.org" \
+            --set-env-vars "SMTP_HOST=smtp.mailgun.org" \
             --set-env-vars "SMTP_PORT=587" \
             --set-secrets "SMTP_USER=SMTP_USER:latest" \
             --set-secrets "SMTP_PWD=SMTP_PWD:latest" \
+            --set-secrets "MAIL_DOMAIN=MAIL_DOMAIN:latest" \
             --allow-unauthenticated \
             --platform "managed" \
             --quiet

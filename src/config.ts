@@ -65,7 +65,7 @@ export const configFactory = (): Configuration => ({
         : undefined,
     },
     defaults: {
-      from: 'Notebook <support@notebook.com>',
+      from: `Notebook <support@${process.env.MAIL_DOMAIN}>`,
     },
     template: {
       adapter: new EjsAdapter(),

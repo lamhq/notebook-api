@@ -172,7 +172,7 @@ describe('AdminService', () => {
       await service.sendMailRequestResetPwd(data);
       expect(mailerService.sendMail).toHaveBeenCalledWith({
         to: `${admin.displayName} <${admin.email}>`,
-        subject: 'Notebook - Password reset request',
+        subject: 'Password reset request',
         template: './reset-password',
         context: {
           appName: 'Notebook',
