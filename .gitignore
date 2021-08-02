@@ -28,3 +28,5 @@ lerna-debug.log*
 
 # environment file for dotenv lib
 .env
+
+tsconfig.build.tsbuildinfo

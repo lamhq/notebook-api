@@ -10,7 +10,6 @@ import {
   ApiNotFoundResponse,
 } from '@nestjs/swagger';
 import { ErrorResponse } from 'common/types/error-response';
-import { AuthService } from 'auth/auth.service';
 import { UserId } from 'auth/user-id.decorator';
 import { AdminJwtAuthGuard } from 'auth/admin/jwt-auth.guard';
 import { Admin } from '../admin.entity';
@@ -25,10 +24,7 @@ import { ResetPasswordDto } from './dto/reset-password.dto';
 @ApiBearerAuth()
 @ApiUnauthorizedResponse({ description: 'Invalid or missing access token' })
 export class AdminAccountController {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly adminService: AdminService,
-  ) {}
+  constructor(private readonly adminService: AdminService) {}
 
   @Get('me')
   @Header('Cache-Control', 'no-store')

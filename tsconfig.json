@@ -5,9 +5,10 @@
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es2017",
+    "target": "ES2020",
     "sourceMap": true,
-    "outDir": "./dist",
+    "outDir": "dist",
+    "rootDir": "src",
     "baseUrl": "./src",
     "incremental": true,
 
