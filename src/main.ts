@@ -36,7 +36,7 @@ function attachValidationPipe(app: INestApplication) {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.setGlobalPrefix('v1');
+  app.setGlobalPrefix('v11');
 
   // enable class validation
   attachValidationPipe(app);
