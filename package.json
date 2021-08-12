@@ -19,15 +19,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "copy:assets": "cp -r 'src/assets/' 'dist/assets'",
-    "preversion": "git-branch-is -r \"^(feature|fix|hotfix)/[a-z\\-\\d\\.]+$\" && echo Preversion checks passed. Your branch name is correct format.",
+    "preversion": "git-branch-is -r \"^(feature|fix|hotfix)/NB-\\d+/[a-z\\-\\d\\.]+$\" && echo Preversion checks passed. Your branch name is correct format.",
     "seed": "ts-node -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js seed --configName ormconfig.cli.js"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn preversion && lint-staged",
-      "pre-push": "yarn test:cov",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
   },
   "lint-staged": {
     "*.ts": [
@@ -95,7 +88,7 @@
     "express": "^4.17.1",
     "faker": "^5.5.3",
     "git-branch-is": "^4.0.0",
-    "husky": "^7.0.1",
+    "husky": "^7.0.0",
     "jest": "^27.0.6",
     "jest-mock-extended": "^1.0.18",
     "lint-staged": "^11.0.1",
