@@ -1,83 +1,36 @@
-# Notebook API
+# Notebook API Codebase
 
 RESTful API Server for Notebook app.
 
+Below is documentation for developers to setup, run and start collaborating on this codebase.
 
-## Requirements
+
+## 1. Install required softwares
 
 - Mac OS X, Windows, or Linux
-- [Yarn](https://yarnpkg.com/) package + [Node.js](https://nodejs.org/) v8.16.2 or newer
-- IDE: VSCode with [ESLint extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) installed. Or any IDE that support ESLint integration.
-- MongoDB 4.4.0
+- [Yarn](https://yarnpkg.com/) package + [Node.js](https://nodejs.org/) v14 or newer
+- MongoDB v5
+- MailHog (used for testing email)
+- VSCode with [ESLint extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) installed.
 
 
-## Technologies used
+## 2. Run API app locally
 
-- Nodejs 12.x
-- TypeScript 3.9.x
-- NestJS
-- Swagger
-
-
-## Running project locally
-
-1. Install & start MongoDB server
-2. Install & start mailhog (Web and API based SMTP testing)
-3. Import sample data by running this command (MacOS and Linux only):
+1. Start MongoDB server
+2. Start MailHog
+3. Populate sample data:
 
 ```sh
-./data/import.sh
+yarn && yarn seed
 ```
 
-4. Open terminal and run the following commands:
+4. Start the API server:
 
 ```sh
 yarn start:dev
 ```
 
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `yarn start`
-
-Runs the app in the development mode.
-
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-### `yarn start:dev`
-
-Same as `yarn start` but in watch mode.
-
-### `yarn start:prod`
-
-Runs the app in the production mode.
-
-### `yarn test`
-
-Launch unit test runner with coverage information. Minimum coverage threshold is also configured for the test to pass.
-
-### `yarn test:e2e`
-
-Launch end to end test.
-
-### `yarn testw`
-
-Launches the test runner in the interactive watch mode.
-
-### `yarn build`
-
-Builds the app for production to the `dist` folder.<br />
-
-Your app is ready to be deployed!
-
-### `yarn lint`
-
-Launches the linter that analyzes source code to flag programming errors, bugs.
-
-
-## Development Workflow
+## 3. Follow this workflow to start development
 
 This project use [GitHub flow](https://guides.github.com/introduction/flow/). The following table is the rule of branch name.
 
@@ -86,26 +39,39 @@ This project use [GitHub flow](https://guides.github.com/introduction/flow/). Th
 | master | production branch, master branch is always deployable. |
 | feature/{name} | this branch is derived from master. use it when you develop a new function. |
 | fix/{name} | this branch is derived from a master branch. use it when you fix bug. |
-| hotfix/{name} | this branch is derived from a release tag. use it when you fix urgent bugs for a version. |
+| hotfix/{name} | this branch is derived from a release tag. use it when you fix urgent bugs for a (released) version. |
 
 Your branch name is automatically checked when committing by [git-branch-is](https://github.com/kevinoid/git-branch-is).
 
 Here's a typical workflow when working on a ticket
 
-1. Make sure to create a branch and a pull request **before starting development**.
+1. Create a new branch **before starting development** and push it to remote.
 
 ```sh
 git checkout -b feature/prepare-code-base
-npm run preversion # check your branch name is correct format.
-git commit --allow-empty -m "chore: setup env be"
+git push
 ```
 
-2. Create a pull request in bitbucket, please prepend `[WIP]` to your pull request's title.
-3. Start development of your task. Update the PR every day.
-4. When you finish the task, remove `[WIP]` from the pull request's title, assign it to reviewer.
+2. Start development of your task. Update the branch every day.
+3. When you finish the task, create a pull request, assign it to reviewer.
+
+## 4. Release (optional)
+
+This app is managed using [Semantic Versioning](https://semver.org/).
+
+App's version is defined in `package.json`, `version` field. The version is calculated base on commit messages. That requires your commits have to follow [conventional commit](https://conventionalcommits.org/) format.
+
+To automatically update the version, go to GitHub Actions and run the workflow `Create new release`.
 
 
-## Standard
+## 5. Deploy
+
+1. Go to [workflow run history](https://docs.github.com/en/actions/1managing-workflow-runs/viewing-workflow-run-history) page in GitHub Actions
+2. From the list of workflow runs, click the name of the latest run that has the word **"Deploy"** in description
+3. Click [Review deployments](https://docs.github.com/en/actions/managing-workflow-runs/reviewing-deployments#approving-or-rejecting-a-job), choose the job environment(s) (`prod` or `test`) to approve deployment
+
+
+## Code Standards
 
 ### Code Style
 
@@ -143,7 +109,7 @@ Reference:
 - https://stackoverflow.com/questions/61666498/file-naming-in-nest-js
 
 
-### MongoDB collection and field naming
+### Database (MongoDB)
 
 - Collection name: use plural, camel case, no hyphens or underscores between words.
 - Field name: use camel case.
@@ -217,14 +183,50 @@ Authorization: Bearer {token-string}
 ```
 
 
-## Release and deploy
+## Available Scripts
 
-Api's version is stored in `package.json`. The version number is updated automatically every time a new release is created. To create a new release and deploy to **test** environment automatically, run this command:
+In the project directory, you can run:
 
-```sh
-yarn release
-```
+### `yarn start`
 
-## Deploy manually
+Runs the app in the development mode.
 
-To deploy api service to any environments, follow this [guide](https://support.atlassian.com/bitbucket-cloud/docs/pipeline-triggers/#Run-pipelines-steps-manually), the pipeline to run are `deploy-to-test`, `deploy-to-production`.
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+### `yarn start:dev`
+
+Same as `yarn start` but in watch mode.
+
+### `yarn start:prod`
+
+Runs the app in the production mode.
+
+### `yarn test`
+
+Launch unit test runner with coverage information. Minimum coverage threshold is also configured for the test to pass.
+
+### `yarn test:e2e`
+
+Launch end to end test.
+
+### `yarn test:watch`
+
+Launches the test runner in the interactive watch mode.
+
+### `yarn build`
+
+Builds the app for production to the `dist` folder.<br />
+
+Your app is ready to be deployed!
+
+### `yarn lint`
+
+Launches the linter that analyzes source code to flag programming errors, bugs.
+
+
+## Technologies / frameworks
+
+- Nodejs v14
+- TypeScript v4
+- NestJS v8
+- Swagger
