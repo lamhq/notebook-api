@@ -14,7 +14,7 @@ function attachSwaggerModule(app: INestApplication) {
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('api/v1/doc', app, document);
+  SwaggerModule.setup('api/doc', app, document);
 }
 
 function attachValidationPipe(app: INestApplication) {
@@ -36,7 +36,7 @@ function attachValidationPipe(app: INestApplication) {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.setGlobalPrefix('api/v1');
+  app.setGlobalPrefix('api');
 
   // enable class validation
   attachValidationPipe(app);
@@ -49,6 +49,9 @@ async function bootstrap() {
 
   // enable cookie parser
   app.use(cookieParser());
+
+  // enable URI Versioning
+  app.enableVersioning();
 
   await app.listen(process.env.PORT || 3000);
 }
