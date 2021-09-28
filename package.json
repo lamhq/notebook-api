@@ -20,7 +20,8 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "copy:assets": "cp -r 'src/assets/' 'dist/assets'",
     "preversion": "git-branch-is -r \"^(feature|fix|hotfix)/NB-\\d+/[a-z\\-\\d\\.]+$\" && echo Preversion checks passed. Your branch name is correct format.",
-    "seed": "ts-node -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js seed --configName ormconfig.cli.js"
+    "seed": "ts-node -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js seed --configName ormconfig.cli.js",
+    "release": "standard-version --no-verify && git push --no-verify && git push -f --tags --no-verify"
   },
   "lint-staged": {
     "*.ts": [
@@ -96,6 +97,7 @@
     "lint-staged": "^11.0.1",
     "prettier": "^2.3.2",
     "rimraf": "^3.0.2",
+    "standard-version": "^9.3.1",
     "ts-jest": "27.0.4",
     "ts-loader": "^9.2.3",
     "ts-node": "^10.1.0",
