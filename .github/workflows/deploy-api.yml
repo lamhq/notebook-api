@@ -60,6 +60,10 @@ jobs:
     name: Deploy to Production
     environment: prod
     runs-on: ubuntu-latest
+    env:
+      SMTP_USER: 'postmaster@sandbox68d00389e9f44c2284dd87ad308a3af0.mailgun.org'
+      MAIL_DOMAIN: 'sandbox68d00389e9f44c2284dd87ad308a3af0.mailgun.org'
+      GOOGLE_CLIENT_ID: '966526925320-2vd5cuk9phmufelu7g3hunikpndmhsae.apps.googleusercontent.com'
     steps:
       - name: Setup Cloud SDK
         uses: google-github-actions/setup-gcloud@v0.2.0
@@ -93,9 +97,12 @@ jobs:
             --set-secrets "WEB_URL=WEB_URL:latest" \
             --set-env-vars "SMTP_HOST=smtp.mailgun.org" \
             --set-env-vars "SMTP_PORT=587" \
-            --set-secrets "SMTP_USER=SMTP_USER:latest" \
+            --set-env-vars "SMTP_USER=${{ env.SMTP_USER }}" \
             --set-secrets "SMTP_PWD=SMTP_PWD:latest" \
-            --set-secrets "MAIL_DOMAIN=MAIL_DOMAIN:latest" \
+            --set-env-vars "MAIL_DOMAIN=${{ env.MAIL_DOMAIN }}" \
+            --set-env-vars "GOOGLE_CLIENT_ID=${{ env.GOOGLE_CLIENT_ID }}" \
+            --set-secrets "GOOGLE_REDIRECT_URL=GOOGLE_REDIRECT_URL:latest" \
+            --set-secrets "GOOGLE_CLIENT_SECRET=GOOGLE_CLIENT_SECRET:latest" \
             --allow-unauthenticated \
             --platform "managed" \
             --quiet
