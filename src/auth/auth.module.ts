@@ -10,6 +10,8 @@ import { AdminLocalAuthStrategy } from './admin/local-auth.strategy';
 import { AdminJwtAuthGuard } from './admin/jwt-auth.guard';
 import { AdminJwtAuthStrategy } from './admin/jwt-auth.strategy';
 import { AdminAuthController } from './admin/auth.controller';
+import { GoogleController } from './admin/google.controller';
+import { GoogleAuthStrategy } from './strategies/google-auth.strategy';
 
 @Module({
   imports: [
@@ -36,8 +38,9 @@ import { AdminAuthController } from './admin/auth.controller';
     AdminLocalAuthStrategy,
     AdminJwtAuthGuard,
     AdminJwtAuthStrategy,
+    GoogleAuthStrategy,
   ],
-  controllers: [AuthController, AdminAuthController],
+  controllers: [AuthController, AdminAuthController, GoogleController],
   exports: [AuthService],
 })
 export class AuthModule {}

@@ -2,6 +2,9 @@ import { Injectable } from '@nestjs/common';
 import ms from 'ms';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { TOKEN_COOKIE_NAME } from 'common/constants/auth';
+import { Request } from 'express';
+import { classToPlain } from 'class-transformer';
 import { JwtPayload } from './types/jwt-payload';
 import { Identity } from './types/identity';
 
@@ -20,9 +23,16 @@ export class AuthService {
       email: payload.email,
       avatar: payload.avatar,
       roles: payload.roles,
-      token: this.jwtService.sign(payload),
+      token: this.jwtService.sign(classToPlain(payload)),
       expireAt,
     });
     return token;
+  }
+
+  setTokenCookie(req: Request, token: Identity) {
+    req.res!.cookie(TOKEN_COOKIE_NAME, token.token, {
+      expires: token.expireAt,
+      httpOnly: true,
+    });
   }
 }
