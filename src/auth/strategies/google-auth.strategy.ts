@@ -1,33 +1,22 @@
 import { PassportStrategy } from '@nestjs/passport';
-import { Strategy, Profile, VerifyCallback } from 'passport-google-oauth20';
+import { Strategy, VerifyFunction } from 'passport-http-bearer';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { GoogleService } from 'auth/google/google.service';
 import { AdminService } from 'admin/admin.service';
 
 @Injectable()
 export class GoogleAuthStrategy extends PassportStrategy(Strategy, 'google') {
-  constructor(private adminService: AdminService, configService: ConfigService) {
-    super({
-      clientID: configService.get<string>('google.clientId'),
-      clientSecret: configService.get<string>('google.clientSecret'),
-      callbackURL: configService.get<string>('google.redirectUrl'),
-      scope: ['email', 'profile'],
-    });
+  constructor(private readonly googleService: GoogleService, private adminService: AdminService) {
+    super();
   }
 
-  async validate(
-    accessToken: string,
-    refreshToken: string,
-    profile: Profile,
-    cb: VerifyCallback,
-  ): Promise<void> {
-    // eslint-disable-next-line no-underscore-dangle
-    const loginId = profile._json.email;
-    const account = await this.adminService.findOneByEmail(loginId);
+  validate: VerifyFunction = async (token, done) => {
+    const email = await this.googleService.getAccountEmail(token);
+    const account = await this.adminService.findOneByEmail(email);
     if (!account) {
-      cb(new UnauthorizedException());
+      done(new UnauthorizedException('No account found'));
       return;
     }
-    cb(undefined, account);
-  }
+    done(undefined, account);
+  };
 }

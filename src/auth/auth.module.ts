@@ -1,3 +1,4 @@
+import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
@@ -10,8 +11,9 @@ import { AdminLocalAuthStrategy } from './admin/local-auth.strategy';
 import { AdminJwtAuthGuard } from './admin/jwt-auth.guard';
 import { AdminJwtAuthStrategy } from './admin/jwt-auth.strategy';
 import { AdminAuthController } from './admin/auth.controller';
-import { GoogleController } from './admin/google.controller';
+import { GoogleController } from './google/google.controller';
 import { GoogleAuthStrategy } from './strategies/google-auth.strategy';
+import { GoogleService } from './google/google.service';
 
 @Module({
   imports: [
@@ -29,6 +31,7 @@ import { GoogleAuthStrategy } from './strategies/google-auth.strategy';
         };
       },
     }),
+    HttpModule,
     CommonModule,
     AdminModule,
   ],
@@ -39,6 +42,7 @@ import { GoogleAuthStrategy } from './strategies/google-auth.strategy';
     AdminJwtAuthGuard,
     AdminJwtAuthStrategy,
     GoogleAuthStrategy,
+    GoogleService,
   ],
   controllers: [AuthController, AdminAuthController, GoogleController],
   exports: [AuthService],

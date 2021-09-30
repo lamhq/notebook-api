@@ -27,11 +27,6 @@ export interface Configuration {
   };
   typeorm: TypeOrmModuleOptions;
   mail: MailerOptions;
-  google: {
-    clientId: string;
-    clientSecret: string;
-    redirectUrl: string;
-  };
 }
 
 export const configFactory = (): Configuration => ({
@@ -79,11 +74,6 @@ export const configFactory = (): Configuration => ({
         strict: false,
       },
     },
-  },
-  google: {
-    clientId: process.env.GOOGLE_CLIENT_ID || '',
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
-    redirectUrl: process.env.GOOGLE_REDIRECT_URL || '',
   },
 });
 
