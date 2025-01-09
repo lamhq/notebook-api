@@ -1,0 +1,9 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "hashicorp.terraform",
+    "sanaajani.taskrunnercode",
+    "orta.vscode-jest",
+    "mongodb.mongodb-vscode"
+  ]
+}
