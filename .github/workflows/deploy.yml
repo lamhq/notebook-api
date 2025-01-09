@@ -55,3 +55,6 @@ jobs:
         run: |
           echo '${{ secrets.TF_BACKEND_CONFIG }}' > backend.tfvars
           terraform init -backend-config=backend.tfvars -reconfigure
+          terraform workspace new ${{ matrix.env == 'prod' && 'default' || matrix.env }}
+          echo '${{ secrets.TF_INPUT_VARS }}' > input.tfvars
+          terraform apply --auto-approve -var-file="input.tfvars"
