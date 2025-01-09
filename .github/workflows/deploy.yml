@@ -11,12 +11,9 @@ permissions:
   contents: read # This is required for actions/checkout
 
 jobs:
-  deploy_matrix:
-    strategy:
-      matrix:
-        env: [prod]
-    name: Deploy to ${{ matrix.env }}
-    environment: ${{ matrix.env }}
+  deploy_to_production:
+    name: Deploy to production
+    environment: prod
     runs-on: ubuntu-latest
     steps:
       - name: checkout code
@@ -55,6 +52,6 @@ jobs:
         run: |
           echo '${{ secrets.TF_BACKEND_CONFIG }}' > backend.tfvars
           terraform init -backend-config=backend.tfvars -reconfigure
-          terraform workspace new ${{ matrix.env == 'prod' && 'default' || matrix.env }}
+          terraform workspace select default
           echo '${{ secrets.TF_INPUT_VARS }}' > input.tfvars
           terraform apply --auto-approve -var-file="input.tfvars"
