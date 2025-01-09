@@ -10,6 +10,13 @@ API service for Notebook app.
 pnpm install
 ```
 
+Copy the file `.env.example` to `.env` and fill in the values:
+
+```bash filename=".env"
+# Database URI for connecting to MongoDB
+DB_URI='mongodb://*'
+```
+
 ## Compile and run the project
 
 ```bash
@@ -98,7 +105,19 @@ Deploy using Terraform CLI:
 terraform apply -var-file="input.tfvars" --auto-approve
 ```
 
+Note the following values outputed in the terminal:
+
+- `aws_region`
+- `ci_role_arn`
+
 Create an user in Amazon Cognito user pool to enable login feature.
+
+In _Google Cloud Console / Google Auth Platform / Clients_, update **Web client**:
+
+- Add Login Page URI to **Authorized JavaScript origins** section (if you use Cognito domain, the URI will look like this: `https://{domain}.auth.{region}.amazoncognito.com`).
+- Add Redirect URL to **Authorized redirect URIs** section. (if you use Cognito domain, the URI will look like this: `https://{domain}.auth.{region}.amazoncognito.com/oauth2/idpresponse`).
+
+In _Google Cloud Console / Google Auth Platform / Branding_, add Login Page Domain to **Authorized domains** section (if you use Cognito domain, the URI will look like this: `{domain}.auth.{region}.amazoncognito.com/oauth2/idpresponse`).
 
 ### Deploy using GitHub Actions
 
@@ -106,9 +125,11 @@ You need to deploy the project locally first to create the CI role for GitHub Ac
 
 Go to repository setting on GitHub:
 
-1. Create a new environment `dev`
+1. Create new environments: `prod`
 2. Add an environment secret `TS_BACKEND_CONFIG` with content from `infra/backend.tfvars`
 3. Add an environment secret `TF_INPUT_VARS` with content from `infra/input.tfvars`
+4. Add an environment variable `AWS_REGION` with value from `aws_region`
+5. Add an environment variable `CI_ROLE_ARN` with value from `ci_role_arn`
 
 To deploy the project, push code to the `main` branch, the Github Action workflow in `.github/workflows/main.yml` will run and deploy the project automatically.
 
