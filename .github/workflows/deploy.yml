@@ -3,8 +3,6 @@ name: Deploy the application
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
 
 permissions:
   id-token: write # This is required for requesting the JWT
@@ -39,8 +37,8 @@ jobs:
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v4.0.2
         with:
-          role-to-assume: ${{ vars.CI_ROLE_ARN }}
-          aws-region: ${{ vars.AWS_REGION }}
+          role-to-assume: ${{vars.CI_ROLE_ARN}}
+          aws-region: ${{vars.AWS_REGION}}
 
       - name: set up Terraform CLI for CI server
         uses: hashicorp/setup-terraform@v3
@@ -50,12 +48,12 @@ jobs:
       - name: init Terraform
         working-directory: infra
         run: |
-          echo '${{ secrets.TF_BACKEND_CONFIG }}' > backend.tfvars
+          echo '${{secrets.TF_BACKEND_CONFIG}}' > backend.tfvars
           terraform init -backend-config=backend.tfvars -reconfigure
 
       - name: deploy the app
         working-directory: infra
         run: |
           terraform workspace select default
-          echo '${{ secrets.TF_INPUT_VARS }}' > input.tfvars
+          echo '${{secrets.TF_INPUT_VARS}}' > input.tfvars
           terraform apply --auto-approve -var-file="input.tfvars"
