@@ -3,7 +3,7 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import {
   DatabaseConfig,
   configFactory as dbConfigFactory,
-} from '../../database/config';
+} from '../database/config';
 
 export interface AppConfig extends ConfigObject {
   typeorm: TypeOrmModuleOptions & DatabaseConfig;
