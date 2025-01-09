@@ -47,11 +47,15 @@ jobs:
         with:
           terraform_version: '1.10.3'
 
-      - name: deploy the app
+      - name: init Terraform
         working-directory: infra
         run: |
           echo '${{ secrets.TF_BACKEND_CONFIG }}' > backend.tfvars
           terraform init -backend-config=backend.tfvars -reconfigure
+
+      - name: deploy the app
+        working-directory: infra
+        run: |
           terraform workspace select default
           echo '${{ secrets.TF_INPUT_VARS }}' > input.tfvars
           terraform apply --auto-approve -var-file="input.tfvars"
