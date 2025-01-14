@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Transform } from 'class-transformer';
 import { ObjectId } from 'mongodb';
 import { Column, Entity, ObjectIdColumn } from 'typeorm';
@@ -15,6 +16,7 @@ export class Activity {
 
   @Expose()
   @Column()
+  @ApiProperty({ description: 'Content of the activity' })
   content?: string;
 
   /**
@@ -22,10 +24,12 @@ export class Activity {
    */
   @Expose()
   @Column()
+  @ApiProperty({ description: 'When the activity happens' })
   time: Date;
 
   @Expose()
   @Column()
+  @ApiProperty({ description: 'List of tags of the activity' })
   tags: string[] = [];
 
   /**
@@ -33,6 +37,7 @@ export class Activity {
    */
   @Expose()
   @Column()
+  @ApiProperty({ description: 'How much do i earn in this activity?' })
   income?: number;
 
   /**
@@ -40,6 +45,7 @@ export class Activity {
    */
   @Expose()
   @Column()
+  @ApiProperty({ description: 'How much does it cost for the activity?' })
   outcome?: number;
 
   constructor(data: Partial<Activity>) {
