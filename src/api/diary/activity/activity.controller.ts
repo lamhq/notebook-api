@@ -18,6 +18,7 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
+  ApiParam,
   ApiQuery,
   ApiTags,
   ApiUnauthorizedResponse,
@@ -98,6 +99,7 @@ export class ActivityController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Get activity by Id' })
+  @ApiParam({ name: 'id', type: String })
   @ApiOkResponse({ type: Activity })
   @ApiNotFoundResponse({ description: 'Activity not found', type: ErrorResponse })
   async findOne(@Param('id', ParseObjectIDPipe) id: ObjectId): Promise<Activity> {
@@ -106,6 +108,7 @@ export class ActivityController {
 
   @Delete(':id')
   @ApiOperation({ summary: 'Delete activity' })
+  @ApiParam({ name: 'id', type: String })
   @ApiOkResponse({ description: 'Activity removed.' })
   @ApiNotFoundResponse({ description: 'Activity not found', type: ErrorResponse })
   async delete(@Param('id', ParseObjectIDPipe) id: ObjectId): Promise<void> {
@@ -126,6 +129,7 @@ export class ActivityController {
 
   @Put(':id')
   @ApiOperation({ summary: 'Update activity' })
+  @ApiParam({ name: 'id', type: String })
   @ApiBody({ description: 'Activity data', type: ActivityDto })
   @ApiOkResponse({ type: Activity })
   @ApiNotFoundResponse({ description: 'Activity not found', type: ErrorResponse })
