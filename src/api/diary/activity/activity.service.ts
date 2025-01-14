@@ -65,7 +65,7 @@ export class ActivityService {
     return this.activityRepo.findAndCount(filter);
   }
 
-  async findOneByIdOrFail(id: string): Promise<Activity> {
+  async findOneByIdOrFail(id: ObjectId): Promise<Activity> {
     const activity = await this.activityRepo.findOneBy(id);
     if (!activity) {
       throw new NotFoundException('Activity not found');
@@ -73,7 +73,7 @@ export class ActivityService {
     return activity;
   }
 
-  async delete(id: string): Promise<void> {
+  async delete(id: ObjectId): Promise<void> {
     const activity = await this.findOneByIdOrFail(id);
     this.eventEmitter.emit(
       ACTIVITY_REMOVED_EVENT,
@@ -99,7 +99,7 @@ export class ActivityService {
     return activity;
   }
 
-  async update(id: string, dto: ActivityDto): Promise<Activity> {
+  async update(id: ObjectId, dto: ActivityDto): Promise<Activity> {
     const before = await this.findOneByIdOrFail(id);
     const after = {
       ...before,

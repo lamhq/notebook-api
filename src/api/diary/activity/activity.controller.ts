@@ -20,18 +20,21 @@ import {
   ApiOperation,
   ApiQuery,
   ApiTags,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import type { Request } from 'express';
+import { ObjectId } from 'mongodb';
 import { RESP_HEADER_TOTAL_COUNT } from '../../common/constants/pagination';
 import { ParseDatePipe } from '../../common/pipes/parse-date.pipe';
 import { ParseObjectIDPipe } from '../../common/pipes/parse-object-id.pipe';
-import { ErrorResponse } from '../../common/types';
+import { ErrorResponse, ValidationErrorResponse } from '../../common/types';
 import { ActivityDto } from './activity.dto';
 import { Activity, ActivityQuery } from './activity.entity';
 import { ActivityService } from './activity.service';
 
 @Controller('diary/activities')
 @ApiTags('Diary')
+@ApiUnauthorizedResponse({ description: 'Invalid or missing access token' })
 export class ActivityController {
   constructor(private readonly activityService: ActivityService) {}
 
@@ -96,18 +99,16 @@ export class ActivityController {
   @Get(':id')
   @ApiOperation({ summary: 'Get activity by Id' })
   @ApiOkResponse({ type: Activity })
-  @ApiNotFoundResponse({ description: 'Activity not found' })
-  async findOne(
-    @Param('id', new ParseObjectIDPipe()) id: string,
-  ): Promise<Activity> {
+  @ApiNotFoundResponse({ description: 'Activity not found', type: ErrorResponse })
+  async findOne(@Param('id', ParseObjectIDPipe) id: ObjectId): Promise<Activity> {
     return this.activityService.findOneByIdOrFail(id);
   }
 
   @Delete(':id')
   @ApiOperation({ summary: 'Delete activity' })
   @ApiOkResponse({ description: 'Activity removed.' })
-  @ApiNotFoundResponse({ description: 'Activity not found' })
-  async delete(@Param('id', new ParseObjectIDPipe()) id: string): Promise<void> {
+  @ApiNotFoundResponse({ description: 'Activity not found', type: ErrorResponse })
+  async delete(@Param('id', ParseObjectIDPipe) id: ObjectId): Promise<void> {
     await this.activityService.delete(id);
   }
 
@@ -115,7 +116,10 @@ export class ActivityController {
   @ApiOperation({ summary: 'Add a new activity' })
   @ApiBody({ description: 'Activity data', type: ActivityDto })
   @ApiOkResponse({ type: Activity })
-  @ApiBadRequestResponse({ type: ErrorResponse, description: 'Input errors' })
+  @ApiBadRequestResponse({
+    description: 'Invalid input data',
+    type: ValidationErrorResponse,
+  })
   async create(@Body() data: ActivityDto): Promise<Activity> {
     return this.activityService.create(data);
   }
@@ -124,10 +128,13 @@ export class ActivityController {
   @ApiOperation({ summary: 'Update activity' })
   @ApiBody({ description: 'Activity data', type: ActivityDto })
   @ApiOkResponse({ type: Activity })
-  @ApiNotFoundResponse({ description: 'Activity not found' })
-  @ApiBadRequestResponse({ type: ErrorResponse, description: 'Input errors' })
+  @ApiNotFoundResponse({ description: 'Activity not found', type: ErrorResponse })
+  @ApiBadRequestResponse({
+    description: 'Invalid input data',
+    type: ValidationErrorResponse,
+  })
   async update(
-    @Param('id', new ParseObjectIDPipe()) id: string,
+    @Param('id', ParseObjectIDPipe) id: ObjectId,
     @Body() data: ActivityDto,
   ): Promise<Activity> {
     return this.activityService.update(id, data);
