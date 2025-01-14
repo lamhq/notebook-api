@@ -29,7 +29,7 @@ export default tseslint.config(
     ...pluginJest.configs['flat/all'],
   },
 
-  // additional rules for Jest test files
+  // application rules for Jest test files
   {
     files: ['**/*.spec.ts', '**/*.test.ts'],
     rules: {
@@ -46,7 +46,7 @@ export default tseslint.config(
     },
   },
 
-  // application rules
+  // application rules for other code files
   {
     rules: {
       // allow NestJS module classes

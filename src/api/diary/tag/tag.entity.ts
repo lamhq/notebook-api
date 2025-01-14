@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Transform } from 'class-transformer';
 import { ObjectId } from 'mongodb';
 import { Column, Entity, ObjectIdColumn } from 'typeorm';
@@ -11,6 +12,7 @@ export class Tag {
 
   @Expose()
   @Column()
+  @ApiProperty({ description: 'Tag name' })
   name: string;
 
   constructor(partial: Partial<Tag>) {

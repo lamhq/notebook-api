@@ -4,6 +4,7 @@
     "hashicorp.terraform",
     "sanaajani.taskrunnercode",
     "orta.vscode-jest",
-    "mongodb.mongodb-vscode"
+    "mongodb.mongodb-vscode",
+    "dbaeumer.vscode-eslint"
   ]
 }

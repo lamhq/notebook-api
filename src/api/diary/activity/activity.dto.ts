@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsPositive } from 'class-validator';
+import { IsArray, IsNotEmpty, IsOptional, IsPositive } from 'class-validator';
 
 export class ActivityDto {
   @ApiProperty()
@@ -11,6 +11,7 @@ export class ActivityDto {
   time: string;
 
   @ApiProperty()
+  @IsArray()
   tags: string[] = [];
 
   @ApiProperty()

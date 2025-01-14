@@ -17,7 +17,15 @@ Copy the file `.env.example` to `.env` and fill in the values:
 DB_URI='mongodb://*'
 ```
 
-## Compile and run the project
+## Run the project
+
+Start Mongo database server:
+
+```bash
+podman run --rm -p 27017:27017 mongo:8.0.4-noble
+```
+
+Start the app:
 
 ```bash
 # development
