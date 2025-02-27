@@ -55,5 +55,5 @@ jobs:
         working-directory: infra
         run: |
           terraform workspace select default
-          echo '${{secrets.TF_INPUT_VARS}}' > input.tfvars
-          terraform apply --auto-approve -var-file="input.tfvars"
+          echo '${{secrets.TF_VARS}}' > params.tfvars
+          terraform apply --auto-approve -var-file="params.tfvars"

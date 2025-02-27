@@ -71,7 +71,7 @@ key                  = "terraform.tfstate"
 dynamodb_table       = "<DynamoDB table name to perform state locking>"
 ```
 
-Create a `infra/input.tfvars` file that contain required input variables:
+Create a `infra/params.tfvars` file that contain required variables to deploy the infrastructure:
 
 ```hcl filename="params.tfvars"
 project               = "<project name>"
@@ -80,16 +80,17 @@ tf_backend_policy_arn = "Policy ARN"
 github_repo_id        = "github-username/repo-name"
 google_client_id      = ""
 google_client_secret  = ""
+web_url               = "http://localhost:3030"
 api_env_vars = {
-  WEB_URL = ""
   DB_URI  = ""
 }
 ```
 
 - `tf_backend_policy_arn`: ARN of IAM policy for managing Terraform backend resources on AWS
 - `github_repo_id`: GitHub reposity that contains project source code
+- `web_url`: URL of the web app
 
-Prepare AWS credentials in the terminal.
+Configure AWS credentials for the CLI with administrator permission.
 
 Init Terraform working directory:
 
@@ -110,7 +111,7 @@ npm run build
 Deploy using Terraform CLI:
 
 ```shell
-terraform apply -var-file="input.tfvars" --auto-approve
+terraform apply -var-file="params.tfvars" --auto-approve
 ```
 
 Note the following values outputed in the terminal:
@@ -135,7 +136,7 @@ Go to repository setting on GitHub:
 
 1. Create new environments: `prod`
 2. Add an environment secret `TF_BACKEND_CONFIG` with content from `infra/backend.tfvars`
-3. Add an environment secret `TF_INPUT_VARS` with content from `infra/input.tfvars`
+3. Add an environment secret `TF_VARS` with content from `infra/params.tfvars`
 4. Add an environment variable `AWS_REGION` with value from `aws_region`
 5. Add an environment variable `CI_ROLE_ARN` with value from `ci_role_arn`
 
@@ -164,7 +165,7 @@ Total time: %{time_total}\n" https://thfabm1j3j.execute-api.eu-central-1.amazona
 ## Clean up
 
 ```sh
-terraform destroy -var-file="input.tfvars" --auto-approve
+terraform destroy -var-file="params.tfvars" --auto-approve
 terraform workspace select default
 terraform workspace delete dev
 ```

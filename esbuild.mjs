@@ -3,7 +3,7 @@ import { clean } from 'esbuild-plugin-clean';
 import { esbuildPluginDecorator } from 'esbuild-plugin-decorator';
 
 await build({
-  entryPoints: ['src/api/lambda.ts', 'src/functions/pre-signup.ts'],
+  entryPoints: ['src/api/lambda.ts', 'src/functions/pre-sign-up.ts'],
   outbase: 'src',
   outdir: 'dist',
   sourcemap: true,
