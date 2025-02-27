@@ -3,9 +3,10 @@ import {
   IsArray,
   IsDateString,
   IsNotEmpty,
-  IsOptional,
-  IsPositive,
+  IsNumberString,
+  ValidateIf,
 } from 'class-validator';
+import { Activity } from './activity.entity';
 
 export class ActivityDto {
   @ApiProperty()
@@ -22,12 +23,23 @@ export class ActivityDto {
   tags: string[] = [];
 
   @ApiProperty()
-  @IsOptional()
-  @IsPositive()
-  income: number;
+  @ValidateIf((o: ActivityDto) => Boolean(o.income))
+  @IsNumberString()
+  income?: string;
 
   @ApiProperty()
-  @IsOptional()
-  @IsPositive()
-  outcome: number;
+  @ValidateIf((o: ActivityDto) => Boolean(o.outcome))
+  @IsNumberString()
+  outcome?: string;
+
+  toActivity(): Activity {
+    const result = new Activity({
+      content: this.content,
+      time: new Date(this.time),
+      tags: this.tags.map((tag) => tag.toLowerCase().trim()),
+    });
+    if (this.income) result.income = parseInt(this.income);
+    if (this.outcome) result.outcome = parseInt(this.outcome);
+    return result;
+  }
 }
