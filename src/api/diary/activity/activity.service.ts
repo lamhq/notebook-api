@@ -83,39 +83,25 @@ export class ActivityService {
   }
 
   async create(dto: ActivityDto): Promise<Activity> {
-    const save = new Activity({
-      content: dto.content,
-      time: new Date(dto.time),
-      income: dto.income,
-      outcome: dto.outcome,
-      tags: dto.tags.map((tag) => tag.toLowerCase().trim()),
-    });
-    const activity = await this.activityRepo.save(save);
+    const entity = dto.toActivity();
+    const activity = await this.activityRepo.save(entity);
 
     this.eventEmitter.emit(
       ACTIVITY_CREATED_EVENT,
-      new ActivityCreatedEvent({ activity: save }),
+      new ActivityCreatedEvent({ activity: entity }),
     );
     return activity;
   }
 
   async update(id: ObjectId, dto: ActivityDto): Promise<Activity> {
     const before = await this.findOneByIdOrFail(id);
-    const after = {
-      ...before,
-      content: dto.content,
-      time: new Date(dto.time),
-      income: dto.income,
-      outcome: dto.outcome,
-      tags: dto.tags.map((tag) => tag.toLowerCase().trim()),
-    };
-
-    await this.activityRepo.save(after);
+    const entity = { ...dto.toActivity(), id: before.id };
+    await this.activityRepo.replaceOne({ _id: entity.id }, entity);
 
     this.eventEmitter.emit(
       ACTIVITY_UPDATED_EVENT,
-      new ActivityUpdatedEvent({ before, after }),
+      new ActivityUpdatedEvent({ before, after: entity }),
     );
-    return after;
+    return entity;
   }
 }
