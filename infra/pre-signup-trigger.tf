@@ -28,7 +28,6 @@ resource "aws_iam_role" "functions_role" {
       }
     ]
   })
-  tags = local.role_tags
 }
 
 # lambda function permission policy
