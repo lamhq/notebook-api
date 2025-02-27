@@ -9,6 +9,11 @@ variable "github_repo_id" {
   default     = "github-username/repository-name"
 }
 
+variable "github_oidc_provider_arn" {
+  type        = string
+  description = "ARN of Identity provider for Github"
+}
+
 resource "aws_iam_role" "api_cd_role" {
   name = "${local.name_prefix}-api-deployment-role"
 
@@ -18,7 +23,7 @@ resource "aws_iam_role" "api_cd_role" {
       {
         Effect = "Allow",
         Principal = {
-          Federated = aws_iam_openid_connect_provider.github_oidc_provider.arn
+          Federated = var.github_oidc_provider_arn
         },
         Action = "sts:AssumeRoleWithWebIdentity",
         Condition = {
@@ -79,7 +84,7 @@ resource "aws_iam_policy" "code_deploy_policy" {
         Resource = "*"
       },
 
-      # manage log groups of project
+      # log access
       {
         Effect   = "Allow"
         Action   = ["logs:DescribeLogGroups"]
@@ -99,13 +104,6 @@ resource "aws_iam_policy" "code_deploy_policy" {
           "arn:aws:iam::${local.aws_acc_id}:role/${local.name_prefix}-*",
           "arn:aws:iam::${local.aws_acc_id}:policy/${local.name_prefix}-*"
         ]
-      },
-
-      # manage identity providers of project
-      {
-        Effect   = "Allow"
-        Action   = ["iam:*"]
-        Resource = "arn:aws:iam::${local.aws_acc_id}:oidc-provider/token.actions.githubusercontent.com"
       }
     ]
   })
