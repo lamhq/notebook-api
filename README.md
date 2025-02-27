@@ -117,7 +117,7 @@ terraform apply -var-file="params.tfvars" --auto-approve
 Note the following values outputed in the terminal:
 
 - `aws_region`
-- `ci_role_arn`
+- `CD_ROLE_ARN`
 
 Create an user in Amazon Cognito user pool to enable login feature.
 
@@ -138,7 +138,7 @@ Go to repository setting on GitHub:
 2. Add an environment secret `TF_BACKEND_CONFIG` with content from `infra/backend.tfvars`
 3. Add an environment secret `TF_VARS` with content from `infra/params.tfvars`
 4. Add an environment variable `AWS_REGION` with value from `aws_region`
-5. Add an environment variable `CI_ROLE_ARN` with value from `ci_role_arn`
+5. Add an environment variable `CD_ROLE_ARN` with value from `CD_ROLE_ARN`
 
 To deploy the project, push code to the `main` branch, the Github Action workflow in `.github/workflows/main.yml` will run and deploy the project automatically.
 

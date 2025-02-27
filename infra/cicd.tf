@@ -15,7 +15,7 @@ variable "github_oidc_provider_arn" {
 }
 
 resource "aws_iam_role" "api_cd_role" {
-  name = "${local.name_prefix}-api-deployment-role"
+  name = "${local.name_prefix}-api-cd-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
