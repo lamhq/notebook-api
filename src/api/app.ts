@@ -19,6 +19,7 @@ export async function getNestApp() {
     .setDescription('API for Notebook app')
     .setVersion('1.0')
     .build();
+
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
   return app;
