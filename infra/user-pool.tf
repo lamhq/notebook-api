@@ -63,7 +63,7 @@ resource "aws_cognito_user_pool_client" "user_pool_client" {
 
   allowed_oauth_flows_user_pool_client = true
   explicit_auth_flows                  = ["ALLOW_REFRESH_TOKEN_AUTH"]
-  allowed_oauth_flows                  = ["implicit"]
+  allowed_oauth_flows                  = ["code"]
   allowed_oauth_scopes                 = ["email", "openid", "profile"]
 
   depends_on = [aws_cognito_identity_provider.google_idp]

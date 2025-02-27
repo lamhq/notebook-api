@@ -4,14 +4,14 @@ variable "tf_backend_policy_arn" {
 }
 
 variable "github_repo_id" {
-  description = "GitHub repository identifier"
+  description = "GitHub reposity that contains project source code"
   type        = string
   default     = "github-username/repository-name"
 }
 
 variable "github_oidc_provider_arn" {
   type        = string
-  description = "ARN of Identity provider for Github"
+  description = "ARN of Identity provider for Github Action"
 }
 
 resource "aws_iam_role" "api_cd_role" {
