@@ -130,14 +130,13 @@ terraform apply -var-file="params.tfvars" --auto-approve
 
 ### Create a user in Cognito user pool
 
-Since the application's user pools doesn't support registration, you'll have to manually add a user with a google email to login.
+Because the application's user pools do not support registration, you'll need to manually add a user with a Google email address to enable login.
 
 Sign in to [Amazon Cognito console](https://console.aws.amazon.com/cognito), select the user pool to add a user.
 
 ### Set up Google authentication
 
-The application only support sign in through Google, so
-you have to configure Google OAuth client to work with the Cognito user pool.
+The application only supports signing in through Google, so you need to configure the Google OAuth client to work with the Cognito user pool.
 
 In _Google Cloud Console / APIs & Services / OAuth consent screen / Clients_, select **Web client**:
 
@@ -171,36 +170,26 @@ In _Branding_, add Login Page Domain to **Authorized domains** section (if you u
 
 ## Continuous Delivery
 
-1. Create an environment for deployment in your repository settings
+Configure your GitHub repository to enable automatic deployment upon code changes:
+
+1. Create an environment for deployment in your GitHub repository settings
 2. Create Secrets and Variables for the environment
 3. When changes are pushed to the `main` branch, a Github Action workflow in `.github/workflows/main.yml` will run and deploy the application automatically.
 
 Go to repository setting on GitHub:
 
-1. Create new environments: `prod`
-2. Add an environment secret `TF_BACKEND_CONFIG` with content from `infra/backend.tfvars`
-3. Add an environment secret `TF_VARS` with content from `infra/params.tfvars`
-4. Add an environment variable `AWS_REGION` with value from `aws_region`
-5. Add an environment variable `CD_ROLE_ARN` with value from `CD_ROLE_ARN`
-
-## Access deployed API
-
-After running deploy command, look for the outputed API endpoint in the terminal.
-
-To call the API:
-
-```shell
-curl https://thfabm1j3j.execute-api.eu-central-1.amazonaws.com/v1/users
-```
+- Environment name: `prod`
+- Secret `TF_BACKEND_CONFIG`, with content from `infra/backend.tfvars`
+- Secret `TF_VARS`, with content from `infra/params.tfvars`
+- Variable `AWS_REGION`, with value from `aws_region`
+- Variable `CD_ROLE_ARN`, with value from `CD_ROLE_ARN`
 
 ## Clean up
+
+Destroy the application's infrastructure:
 
 ```sh
 terraform destroy -var-file="params.tfvars" --auto-approve
 terraform workspace select default
 terraform workspace delete dev
 ```
-
-## Source code structure
-
-TBC
