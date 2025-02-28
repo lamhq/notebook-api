@@ -13,7 +13,7 @@ resource "aws_s3_object" "functions_code" {
   source_hash = filemd5(data.archive_file.functions_code_archive.output_path)
 }
 
-# lambda function's role
+# Cognito pre sign-up trigger's role
 resource "aws_iam_role" "pre_sign_up_role" {
   name = "${local.name_prefix}-pre-sign-up-role"
   assume_role_policy = jsonencode({
@@ -30,7 +30,7 @@ resource "aws_iam_role" "pre_sign_up_role" {
   })
 }
 
-# lambda function permission policy
+# permission policy of Cognito pre sign-up trigger
 resource "aws_iam_policy" "pre_sign_up_trigger_policy" {
   name = "${local.name_prefix}-pre-signup-policy"
 
