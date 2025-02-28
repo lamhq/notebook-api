@@ -21,7 +21,6 @@ resource "aws_iam_role" "api_role" {
       }
     ]
   })
-  tags = local.role_tags
 }
 
 # api permission policy

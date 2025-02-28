@@ -6,6 +6,11 @@ variable "google_client_secret" {
   type = string
 }
 
+variable "web_url" {
+  description = "URL of the web app"
+  type        = string
+}
+
 resource "aws_cognito_user_pool" "user_pool" {
   name = "${local.name_prefix}-user-pool"
 
@@ -15,7 +20,7 @@ resource "aws_cognito_user_pool" "user_pool" {
   }
 
   lambda_config {
-    pre_sign_up = aws_lambda_function.pre_signup_trigger.arn
+    pre_sign_up = aws_lambda_function.pre_sign_up_trigger.arn
   }
 }
 
@@ -47,12 +52,18 @@ resource "aws_cognito_user_pool_client" "user_pool_client" {
   user_pool_id                 = aws_cognito_user_pool.user_pool.id
   supported_identity_providers = ["Google"]
   generate_secret              = true
-  callback_urls                = ["https://google.com/callback"]
-  logout_urls                  = ["https://google.com/logout"]
+  callback_urls = [
+    "http://localhost:3030/auth/callback",
+    "${var.web_url}/auth/callback"
+  ]
+  logout_urls = [
+    "http://localhost:3030/auth/signout",
+    "${var.web_url}/auth/signout"
+  ]
 
   allowed_oauth_flows_user_pool_client = true
   explicit_auth_flows                  = ["ALLOW_REFRESH_TOKEN_AUTH"]
-  allowed_oauth_flows                  = ["implicit"]
+  allowed_oauth_flows                  = ["code"]
   allowed_oauth_scopes                 = ["email", "openid", "profile"]
 
   depends_on = [aws_cognito_identity_provider.google_idp]
