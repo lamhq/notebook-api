@@ -48,12 +48,6 @@ npm run test:e2e
 npm run test:cov
 ```
 
-## Build your application
-
-```bash
-npm run build
-```
-
 ## Create infrastructure
 
 1. Set up AWS credentials for the command line
@@ -117,7 +111,7 @@ terraform workspace select dev
 
 ```shell
 pnpm install
-pnpm run build
+npm run build
 ```
 
 ### Create the infrastructure

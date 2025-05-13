@@ -11,11 +11,11 @@ variable "github_repo_id" {
 
 variable "github_oidc_provider_arn" {
   type        = string
-  description = "ARN of Identity provider for Github Action"
+  description = "ARN of Identity provider for Github, it allows GiHub Action to deploy the app"
 }
 
 resource "aws_iam_role" "api_cd_role" {
-  name = "${local.name_prefix}-api-cd-role"
+  name = "${local.name_prefix}-cd-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
